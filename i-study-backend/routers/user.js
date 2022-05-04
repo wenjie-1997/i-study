@@ -11,5 +11,6 @@ router.get("/teachers", UserController.viewTeachers);
 router.get("/", UserAuth.verifyToken, UserController.getUser);
 router.delete("/", UserController.deleteUser);
 router.post("/verify_token", UserAuth.verifyToken, UserController.verifyToken);
+router.post("/change_password", UserController.changePassword);
 
 module.exports = router;

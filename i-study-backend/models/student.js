@@ -7,40 +7,51 @@ class Student {
   }
 
   put = async ({
-    student_id,
+    studentId,
     name = null,
     birthday = null,
     gender = null,
     race = null,
     religion = null,
     address = null,
-    tel_no = null,
-    hp_no = null,
+    telNo = null,
+    hpNo = null,
     email = null,
     disability = null,
-    school_id = null,
+    schoolId = null,
   }) => {
     {
       let queryString = `
         CALL update_student_info(?,?,?,?,?,?,?,?,?,?,?,?);
         `;
       return await db.query(queryString, [
-        student_id,
+        studentId,
         name,
         birthday,
         gender,
         race,
         religion,
         address,
-        tel_no,
-        hp_no,
+        telNo,
+        hpNo,
         email,
         disability,
-        school_id,
+        schoolId,
       ]);
     }
   };
 
+  searchByName = async ({ searchText }) => {
+    const row = await db.query("CALL search_student_by_name(?)", [searchText]);
+    return this.rowToArray(row);
+  };
+
+  getTimetableByStudentId = async ({ studentId }) => {
+    const row = await db.query("CALL select_class_timetable_by_student_id(?)", [
+      studentId,
+    ]);
+    return this.rowToArray(row);
+  };
   rowToArray(sqlRows) {
     if (!sqlRows) return null;
     return JSON.parse(JSON.stringify(sqlRows[0]));

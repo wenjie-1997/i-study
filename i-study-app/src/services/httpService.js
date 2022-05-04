@@ -1,7 +1,9 @@
 import axios from "axios";
+import { logout } from "../thunks/auth";
+import store from "../store";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "http://localhost:8000/",
   timeout: 10000,
 });
 
@@ -26,11 +28,12 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    // if (error.response.status === 403 && !originalRequest._retry) {
-    //   originalRequest._retry = true;
-    //   store.dispatch(verifyToken());
-    //   return instance(originalRequest);
-    // }
+    if (
+      (error.response.status === 403 || error.response.status === 401) &&
+      !originalRequest._retry
+    ) {
+      store.dispatch(logout());
+    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
 

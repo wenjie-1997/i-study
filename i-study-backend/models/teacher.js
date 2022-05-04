@@ -7,18 +7,18 @@ class Teacher {
   }
 
   put = async ({
-    teacher_id,
+    teacherId,
     name = null,
     birthday = null,
     gender = null,
     race = null,
     religion = null,
     address = null,
-    tel_no = null,
-    hp_no = null,
+    telNo = null,
+    hpNo = null,
     email = null,
-    work_since = null,
-    office_no = null,
+    workSince = null,
+    officeNo = null,
     education = null,
     grade = null,
   }) => {
@@ -27,22 +27,27 @@ class Teacher {
         CALL update_teacher_info(?,?,?,?,?,?,?,?,?,?,?,?,?,?);
         `;
       return await db.query(queryString, [
-        teacher_id,
+        teacherId,
         name,
         birthday,
         gender,
         race,
         religion,
         address,
-        tel_no,
-        hp_no,
+        telNo,
+        hpNo,
         email,
-        work_since,
-        office_no,
+        workSince,
+        officeNo,
         education,
         grade,
       ]);
     }
+  };
+
+  searchByName = async ({ searchText }) => {
+    const row = await db.query("CALL search_teacher_by_name(?)", [searchText]);
+    return this.rowToArray(row);
   };
 
   rowToArray(sqlRows) {

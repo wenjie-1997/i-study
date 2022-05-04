@@ -2,7 +2,7 @@ import http from "./httpService";
 const endpoint = "student";
 
 export const updateStudentProfile = async ({
-  studentId: student_id,
+  studentId,
   username,
   name,
   birthday,
@@ -10,14 +10,14 @@ export const updateStudentProfile = async ({
   race,
   religion,
   address,
-  telNo: tel_no,
-  hpNo: hp_no,
+  telNo,
+  hpNo,
   email,
-  schoolId: school_id,
+  schoolId,
   disability,
 }) =>
   await http.put(`${endpoint}`, {
-    student_id,
+    studentId,
     username,
     name,
     birthday,
@@ -25,9 +25,19 @@ export const updateStudentProfile = async ({
     race,
     religion,
     address,
-    tel_no,
-    hp_no,
+    telNo,
+    hpNo,
     email,
-    school_id,
+    schoolId,
     disability,
+  });
+
+export const searchStudentByName = async ({ searchText }) =>
+  await http.get(`${endpoint}/search_by_name`, {
+    params: { searchText },
+  });
+
+export const getStudentTimetable = async ({ studentId }) =>
+  await http.get(`${endpoint}/timetable`, {
+    params: { studentId },
   });

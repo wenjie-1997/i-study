@@ -21,11 +21,11 @@ class User {
     race,
     religion,
     address,
-    tel_no,
-    hp_no,
+    telNo,
+    hpNo,
     email,
     disability,
-    school_id,
+    schoolId,
   }) {
     let queryString = `
     CALL insert_new_student(?,?,?,?,?,?,?,?,?,?,?,?,?);
@@ -39,11 +39,11 @@ class User {
       race,
       religion,
       address,
-      tel_no,
-      hp_no,
+      telNo,
+      hpNo,
       email,
       disability,
-      school_id,
+      schoolId,
     ]);
   }
 
@@ -56,11 +56,11 @@ class User {
     race,
     religion,
     address,
-    tel_no,
-    hp_no,
+    telNo,
+    hpNo,
     email,
-    work_since,
-    office_no,
+    workSince,
+    officeNo,
     education,
     grade,
   }) {
@@ -76,11 +76,11 @@ class User {
       race,
       religion,
       address,
-      tel_no,
-      hp_no,
+      telNo,
+      hpNo,
       email,
-      work_since,
-      office_no,
+      workSince,
+      officeNo,
       education,
       grade,
     ]);
@@ -99,6 +99,14 @@ class User {
   delete = async ({ user_id }) => {
     const row = await db.query("CALL delete_user(?)", [user_id]);
     return row;
+  };
+
+  updatePassword = async ({ username, newPassword }) => {
+    const row = await db.query("CALL update_password(?,?)", [
+      username,
+      newPassword,
+    ]);
+    return JSON.parse(JSON.stringify(row));
   };
 
   rowToArray(sqlRows) {

@@ -7,7 +7,7 @@ import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUserList, updateUserProfile } from "../../thunks/user";
 import * as userSelectors from "../../selectors/user";
-import { USER_TYPE_NAME } from "../../utilities/constants";
+import { USER_TYPE_NAME, USER_TYPE_NUMBER } from "../../utilities/constants";
 import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
 import EditModal from "./components/EditModal";
@@ -15,6 +15,8 @@ import EditModal from "./components/EditModal";
 const ManageUser = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
+  const [userType, setUserType] = useState("");
+  const [displayedUserList, setDisplayedUserList] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const userList = userSelectors.getUserList(user);
@@ -25,7 +27,12 @@ const ManageUser = () => {
 
   useEffect(() => {
     setShowModal(false);
-  }, [userList]);
+    setDisplayedUserList(
+      userList.filter((user) =>
+        userType === "" ? true : userSelectors.getUserType(user) === userType
+      )
+    );
+  }, [userList, userType]);
 
   const onClickDelete = (userId) => {
     dispatch(deleteUser({ userId }));
@@ -65,10 +72,15 @@ const ManageUser = () => {
               <Form.Group as={Row} className="d-flex align-items-center">
                 <Col>Filter:</Col>
                 <Col lg="auto">
-                  <Form.Select>
-                    <option value="all">All User</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="student">Student</option>
+                  <Form.Select
+                    value={userType}
+                    onChange={(e) =>
+                      setUserType(parseInt(e.target.value) || "")
+                    }
+                  >
+                    <option value="">All User</option>
+                    <option value={USER_TYPE_NUMBER["TEACHER"]}>Teacher</option>
+                    <option value={USER_TYPE_NUMBER["STUDENT"]}>Student</option>
                   </Form.Select>
                 </Col>
               </Form.Group>
@@ -85,7 +97,7 @@ const ManageUser = () => {
               </tr>
             </thead>
             <tbody>
-              {userList.map((element, index) => {
+              {displayedUserList.map((element, index) => {
                 return (
                   <tr key={userSelectors.getUserId(element)}>
                     <td>{index + 1}</td>
@@ -93,7 +105,6 @@ const ManageUser = () => {
                     <td>
                       {USER_TYPE_NAME[userSelectors.getUserType(element)]}
                     </td>
-                    {/* <td>{index + 1}</td> */}
                     <td>
                       <Row className="d-flex justify-content-center">
                         <Col xs sm="auto">

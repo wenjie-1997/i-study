@@ -23,10 +23,10 @@ export const registerStudent = async ({
   race,
   religion,
   address,
-  telNo: tel_no,
-  hpNo: hp_no,
+  telNo,
+  hpNo,
   email,
-  schoolId: school_id,
+  schoolId,
   disability,
 }) =>
   await http.post(`${endpoint}/register_student`, {
@@ -38,10 +38,10 @@ export const registerStudent = async ({
     race,
     religion,
     address,
-    tel_no,
-    hp_no,
+    telNo,
+    hpNo,
     email,
-    school_id,
+    schoolId,
     disability,
   });
 
@@ -54,11 +54,11 @@ export const registerTeacher = async ({
   race,
   religion,
   address,
-  telNo: tel_no,
-  hpNo: hp_no,
+  telNo,
+  hpNo,
   email,
-  workSince: work_since,
-  officeNo: office_no,
+  workSince,
+  officeNo,
   education,
   grade,
 }) =>
@@ -71,14 +71,21 @@ export const registerTeacher = async ({
     race,
     religion,
     address,
-    tel_no,
-    hp_no,
+    telNo,
+    hpNo,
     email,
-    work_since,
-    office_no,
+    workSince,
+    officeNo,
     education,
     grade,
   });
 
 export const deleteUser = async ({ userId }) =>
   await http.delete(`${endpoint}`, { data: { user_id: userId } });
+
+export const changePassword = async ({ username, oldPassword, newPassword }) =>
+  await http.post(`${endpoint}/change_password`, {
+    username,
+    oldPassword,
+    newPassword,
+  });

@@ -1,6 +1,9 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const constants = require("../utilities/constants");
+const userDto = require("../dto/user");
+const studentDto = require("../dto/student");
+const teacherDto = require("../dto/teacher");
 
 class UserController {
   registerStudent = async (req, res, next) => {
@@ -37,11 +40,13 @@ class UserController {
       );
       return res.json({
         jwt: token,
-        user_id,
-        name,
-        user_type,
-        ...(teacher_id && { teacher_id }),
-        ...(student_id && { student_id }),
+        ...userDto.userToDto({
+          user_id,
+          name,
+          user_type,
+          ...(teacher_id && { teacher_id }),
+          ...(student_id && { student_id }),
+        }),
       });
     } catch (error) {
       console.log(error);
@@ -50,7 +55,17 @@ class UserController {
 
   viewUsers = async (req, res, next) => {
     try {
-      const result = await User.viewUsers();
+      let result = await User.viewUsers();
+
+      result = result.map((element) => {
+        delete element.password;
+        return {
+          ...userDto.userToDto(element),
+          ...studentDto.studentToDTO(element),
+          ...teacherDto.teacherToDto(element),
+        };
+      });
+      console.log(result);
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -84,7 +99,11 @@ class UserController {
       });
       if (result[0].teacher_id === null) delete result[0].teacher_id;
       if (result[0].student_id === null) delete result[0].student_id;
-      res.json(result[0]);
+      res.json({
+        jwt: result[0].jwt,
+        ...userDto.userToDto(result[0]),
+        username: req.body.username,
+      });
     } catch (error) {
       console.log(error);
       next(error);
@@ -95,7 +114,11 @@ class UserController {
     const { user_id } = req.user;
     try {
       const result = await User.get(user_id);
-      res.json(result);
+      res.json({
+        ...userDto.userToDto(result),
+        ...studentDto.studentToDTO(result),
+        ...teacherDto.teacherToDto(result),
+      });
     } catch (error) {
       console.log(error);
       next(error);
@@ -109,6 +132,27 @@ class UserController {
     } catch (error) {
       console.log(error);
       next(error);
+    }
+  };
+
+  changePassword = async (req, res, next) => {
+    try {
+      const { username, oldPassword, newPassword } = req.body;
+      const loginResult = await User.login({ username, password: oldPassword });
+      if (loginResult.length === 0) {
+        return res.json({ isInvalid: 1, isUpdated: 0 });
+      } else {
+        const { affectedRows, serverStatus } = await User.updatePassword({
+          username,
+          newPassword,
+        });
+        if (affectedRows > 0 && serverStatus === 2)
+          res.json({ isInvalid: 0, isUpdated: 1 });
+        else res.json({ isInvalid: 0, isUpdated: 0 });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.json({ isInvalid: 0, isUpdated: 0 });
     }
   };
 }

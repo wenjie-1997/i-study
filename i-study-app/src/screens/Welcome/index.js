@@ -2,10 +2,13 @@ import React from "react";
 
 const Welcome = () => {
   return (
-    <div className="d-flex justify-content-center">
+    <div
+      style={{ height: "550px" }}
+      className="d-flex justify-content-center align-items-center"
+    >
       <div className="w-50 d-flex flex-column align-items-center">
         <h2>Welcome to I-Study</h2>
-        <p>
+        <p className="text-center">
           A school online teaching and learning system for teacher and Student
         </p>
       </div>

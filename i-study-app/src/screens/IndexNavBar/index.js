@@ -39,7 +39,9 @@ const IndexNavBar = () => {
           </Nav>
         </Container>
       </Navbar>
-      <Outlet />
+      <div className="h-100">
+        <Outlet />
+      </div>
     </Fragment>
   );
 };
