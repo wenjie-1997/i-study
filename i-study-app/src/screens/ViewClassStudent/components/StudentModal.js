@@ -11,6 +11,7 @@ import { searchStudentByName } from "../../../thunks/class";
 import * as classSelectors from "../../../selectors/class";
 import * as userSelectors from "../../../selectors/user";
 import { IoSearch } from "react-icons/io5";
+import CommonFormGroup from "../../common/CommonFormGroup";
 
 const StudentModal = ({ showModal, onCloseModal, onAddStudent }) => {
   const [searchText, setSearchText] = useState("");
@@ -57,7 +58,7 @@ const StudentModal = ({ showModal, onCloseModal, onAddStudent }) => {
     <Modal show={showModal} scrollable dialogClassName="h-100">
       <Modal.Header>Add New Student</Modal.Header>
       <Modal.Body>
-        <Form.Group className="mb-3">
+        <CommonFormGroup className="mb-3">
           <InputGroup>
             <InputGroup.Text>
               <IoSearch />
@@ -69,9 +70,9 @@ const StudentModal = ({ showModal, onCloseModal, onAddStudent }) => {
               onChange={onChangeText}
             />
           </InputGroup>
-        </Form.Group>
+        </CommonFormGroup>
         <div>
-          {studentList.map((s) => (
+          {studentList.slice(0, 5).map((s) => (
             <Card
               key={userSelectors.getStudentId(s)}
               bg={
@@ -79,8 +80,9 @@ const StudentModal = ({ showModal, onCloseModal, onAddStudent }) => {
                   userSelectors.getStudentId(selectedStudent) && "light"
               }
               onClick={() => onSelectStudent(s)}
+              className="mb-2"
             >
-              <Card.Body>{userSelectors.getName(s)}</Card.Body>
+              <Card.Body className="py-3">{userSelectors.getName(s)}</Card.Body>
             </Card>
           ))}
         </div>

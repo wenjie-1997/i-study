@@ -4,6 +4,7 @@ const userDto = require("../dto/user");
 const studentDto = require("../dto/student");
 const subjectDto = require("../dto/subject");
 const timetableSlotDto = require("../dto/timetableSlot");
+const classSubjectDto = require("../dto/classSubject");
 
 class StudentController {
   getList = async (req, res, next) => {
@@ -26,7 +27,6 @@ class StudentController {
   put = async (req, res, next) => {
     try {
       const result = await Student.put(req.body);
-      console.log(result);
       res.json("Update successfully");
     } catch (error) {
       console.log(error);
@@ -56,6 +56,21 @@ class StudentController {
         result.map((slot) => ({
           ...timetableSlotDto.timetableSlotToDto(slot),
           ...subjectDto.subjectToDto(slot),
+        }))
+      );
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
+  getSubjectByStudentId = async (req, res, next) => {
+    try {
+      const result = await Student.getSubjectByStudentId(req.query);
+      res.json(
+        result.map((subject) => ({
+          ...classSubjectDto.classSubjectToDto(subject),
+          ...subjectDto.subjectToDto(subject),
         }))
       );
     } catch (error) {

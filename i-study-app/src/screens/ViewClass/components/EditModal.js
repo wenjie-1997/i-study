@@ -8,6 +8,7 @@ import * as classSelectors from "../../../selectors/class";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import TeacherModal from "./TeacherModal";
+import CommonFormGroup from "../../common/CommonFormGroup";
 
 const EditModal = ({
   showModal,
@@ -43,15 +44,15 @@ const EditModal = ({
         <Modal.Header>Edit User</Modal.Header>
         <Modal.Body className="mx-3 my-2">
           <Form onSubmit={onSubmit}>
-            <Form.Group>
+            <CommonFormGroup>
               <Form.Label>Class Name</Form.Label>
               <Form.Control
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
-            </Form.Group>
-            <Form.Group>
+            </CommonFormGroup>
+            <CommonFormGroup>
               <Form.Label>Form</Form.Label>
               <Form.Select
                 value={form}
@@ -66,8 +67,8 @@ const EditModal = ({
                 <option value={5}>5</option>
                 <option value={6}>6</option>
               </Form.Select>
-            </Form.Group>
-            <Form.Group>
+            </CommonFormGroup>
+            <CommonFormGroup>
               <Form.Label>Class Teacher</Form.Label>
               {teacherId ? (
                 <InputGroup>
@@ -84,7 +85,7 @@ const EditModal = ({
                   Select
                 </Button>
               )}
-            </Form.Group>
+            </CommonFormGroup>
             <Row className="d-flex justify-content-end">
               <Col xs sm="auto">
                 <Button onClick={onCloseModal} variant="secondary">

@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { getUserProfile, updateUserProfile } from "../../thunks/user";
 import ChangePasswordModal from "./components/ChangePasswordModal";
 import { getformattedDate } from "../../utilities/helper";
+import CommonFormGroup from "../common/CommonFormGroup";
 
 const Profile = () => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -51,6 +52,7 @@ const Profile = () => {
   const workSince = userSelectors.getWorkSince(profile);
   const education = userSelectors.getEducation(profile);
   const grade = userSelectors.getGrade(profile);
+  const className = userSelectors.getClassName(profile);
 
   const displayEditModal = () => {
     setEditedAddress(address);
@@ -74,185 +76,121 @@ const Profile = () => {
 
   return (
     <>
-      <div className="mx-auto my-4 center w-75">
-        <Row>
-          <Col>
-            <h2 className="my-2">Profile Details</h2>
-          </Col>
-          <Col xs sm="auto">
-            <Button variant="success" onClick={displayEditModal}>
+      <div class="pagetitle">
+        <h1>Profile Details</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Profile</li>
+          </ol>
+        </nav>
+      </div>
+
+      <Card className="card profile">
+        <Card.Body className="pt-3">
+          <div className="d-flex flex-row align-items-end">
+            <h5 className="card-title py-1">General Details</h5>
+            <div className="flex-grow-1" />
+            <Button
+              variant="success"
+              className="py-1 m-0"
+              onClick={displayEditModal}
+            >
               Edit
             </Button>
-          </Col>
-          <Col xs sm="auto">
             <Button
               variant="warning"
+              className="py-1 m-0 ms-3"
               onClick={() => setShowChangePasswordModal(true)}
             >
               Change Password
             </Button>
-          </Col>
-        </Row>
-
-        <Card className="py-5 px-3">
-          <Container>
-            <Row className="d-flex align-items-lg-center">
-              {/* <Col xs={12} sm={4} className="imageContainer">
-                <div className="circle"></div>
-              </Col> */}
-
-              <Col>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Name
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {name}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Date of Birth
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {getformattedDate(birthday)}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Gender
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {gender}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Race
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {race}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Religion
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {religion}
-                  </Col>
-                </Row>
-                {userType === 1 && (
-                  <>
-                    <Row>
-                      <Col xs={6} sm={4}>
-                        Office No
-                      </Col>
-                      <Col xs={6} sm={4}>
-                        {officeNo}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={6} sm={4}>
-                        Work Since
-                      </Col>
-                      <Col xs={6} sm={4}>
-                        {getformattedDate(workSince)}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={6} sm={4}>
-                        Education
-                      </Col>
-                      <Col xs={6} sm={4}>
-                        {education}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={6} sm={4}>
-                        Grade
-                      </Col>
-                      <Col xs={6} sm={4}>
-                        {grade}
-                      </Col>
-                    </Row>
-                  </>
-                )}
-                {userType === 2 && (
-                  <>
-                    <Row>
-                      <Col xs={6} sm={4}>
-                        Disability
-                      </Col>
-                      <Col xs={6} sm={4}>
-                        {disability}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={6} sm={4}>
-                        School ID
-                      </Col>
-                      <Col xs={6} sm={4}>
-                        {schoolId}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={6} sm={4}>
-                        Class
-                      </Col>
-                      <Col xs={6} sm={4}>
-                        -
-                      </Col>
-                    </Row>
-                  </>
-                )}
-              </Col>
-            </Row>
-            <Row></Row>
-            <Row>
-              <Col>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Address
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {address}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Tel No
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {telNo}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Hp No
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {hpNo}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6} sm={4}>
-                    Email
-                  </Col>
-                  <Col xs={6} sm={4}>
-                    {email}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Container>
-        </Card>
-      </div>
+          </div>
+          <div className="profile-overview">
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Name</div>
+              <div className="col-lg-9 col-md-8">{name}</div>
+            </div>
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Date of Birth</div>
+              <div className="col-lg-9 col-md-8">
+                {getformattedDate(birthday)}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Gender</div>
+              <div className="col-lg-9 col-md-8">{gender}</div>
+            </div>
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Race</div>
+              <div className="col-lg-9 col-md-8">{race}</div>
+            </div>
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Religion</div>
+              <div className="col-lg-9 col-md-8">{religion}</div>
+            </div>
+            {userType === 1 && (
+              <>
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 label ">Office No</div>
+                  <div className="col-lg-9 col-md-8">{officeNo}</div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 label ">Work Since</div>
+                  <div className="col-lg-9 col-md-8">
+                    {getformattedDate(workSince)}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 label ">Education</div>
+                  <div className="col-lg-9 col-md-8">{education}</div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 label ">Grade</div>
+                  <div className="col-lg-9 col-md-8">{grade}</div>
+                </div>
+              </>
+            )}
+            {userType === 2 && (
+              <>
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 label ">Disability</div>
+                  <div className="col-lg-9 col-md-8">{disability}</div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 label ">School ID</div>
+                  <div className="col-lg-9 col-md-8">{schoolId}</div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 label ">Class</div>
+                  <div className="col-lg-9 col-md-8">{className}</div>
+                </div>
+              </>
+            )}
+            <h1 className="card-title">Contact Details</h1>
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Address</div>
+              <div className="col-lg-9 col-md-8">{address}</div>
+            </div>
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Tel No</div>
+              <div className="col-lg-9 col-md-8">{telNo}</div>
+            </div>
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Hp No</div>
+              <div className="col-lg-9 col-md-8">{hpNo}</div>
+            </div>
+            <div className="row">
+              <div className="col-lg-3 col-md-4 label ">Email</div>
+              <div className="col-lg-9 col-md-8">{email}</div>
+            </div>
+          </div>
+        </Card.Body>
+      </Card>
       <Modal size="lg" show={showEditModal}>
-        <Modal.Header>Edit Profile</Modal.Header>
+        <Modal.Header className="modal-header">Edit Profile</Modal.Header>
         <Modal.Body className="mx-3 my-2">
           <Form onSubmit={onSubmitEdit}>
-            <Form.Group>
+            <CommonFormGroup>
               <Form.Label>Address</Form.Label>
               <Form.Control
                 as="textarea"
@@ -261,22 +199,22 @@ const Profile = () => {
                 onChange={(e) => setEditedAddress(e.target.value)}
                 required
               />
-            </Form.Group>
-            <Form.Group>
+            </CommonFormGroup>
+            <CommonFormGroup>
               <Form.Label>Tel No</Form.Label>
               <Form.Control
                 value={editedTelNo || ""}
                 onChange={(e) => setEditedTelNo(e.target.value)}
               />
-            </Form.Group>
-            <Form.Group>
+            </CommonFormGroup>
+            <CommonFormGroup>
               <Form.Label>Hp No</Form.Label>
               <Form.Control
                 value={editedHpNo || ""}
                 onChange={(e) => setEditedHpNo(e.target.value)}
               />
-            </Form.Group>
-            <Form.Group>
+            </CommonFormGroup>
+            <CommonFormGroup>
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -284,22 +222,15 @@ const Profile = () => {
                 onChange={(e) => setEditedEmail(e.target.value)}
                 required
               />
-            </Form.Group>
-            <Row className="mt-4 d-flex justify-content-end">
-              <Col xs sm="auto">
-                <Button
-                  variant="secondary"
-                  onClick={() => setShowEditModal(false)}
-                >
-                  Close
-                </Button>
-              </Col>
-              <Col xs sm="auto">
-                <Button type="submit">Submit</Button>
-              </Col>
-            </Row>
+            </CommonFormGroup>
           </Form>
         </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Close
+          </Button>
+          <Button type="submit">Submit</Button>
+        </Modal.Footer>
       </Modal>
       <ChangePasswordModal
         showModal={showChangePasswordModal}

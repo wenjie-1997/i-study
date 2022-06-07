@@ -15,6 +15,7 @@ module.exports = {
     email,
     teacher_id,
     student_id,
+    class_name,
   }) => ({
     ...(user_id && { userId: user_id }),
     ...(username && { username }),
@@ -29,6 +30,7 @@ module.exports = {
     ...(tel_no && { telNo: tel_no }),
     ...(hp_no && { hpNo: hp_no }),
     ...(email && { email }),
+    ...(class_name && { className: class_name }),
     ...(teacher_id && { teacherId: teacher_id }),
     ...(student_id && { studentId: student_id }),
   }),

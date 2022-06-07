@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { USER_TYPE_NUMBER } from "../../../utilities/constants";
 import * as userSelectors from "../../../selectors/user";
+import CommonFormGroup from "../../common/CommonFormGroup";
 
 const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
   useEffect(() => {
@@ -79,16 +80,16 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
   };
 
   return (
-    <Modal size="lg" show={showModal} scrollable>
-      <Modal.Header>Edit User</Modal.Header>
-      <Modal.Body className="mx-3 my-2">
-        <Form onSubmit={onSubmit}>
-          <Form.Group>
+    <Modal size="lg" show={showModal} onHide={onCloseModal}>
+      <Form onSubmit={onSubmit}>
+        <Modal.Header>Edit User</Modal.Header>
+        <Modal.Body className="mx-3 my-2">
+          <CommonFormGroup>
             <Form.Label>Username</Form.Label>
             <Form.Control value={username} disabled />
-          </Form.Group>
+          </CommonFormGroup>
 
-          <Form.Group>
+          <CommonFormGroup>
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
@@ -96,8 +97,8 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
               onChange={(e) => setName(e.target.value)}
               required
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Birthday</Form.Label>
             <Form.Control
               type="date"
@@ -105,8 +106,8 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
               value={new Date(birthday).toISOString().substring(0, 10)}
               required
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Gender</Form.Label>
             <Form.Check
               type="radio"
@@ -124,8 +125,8 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
               onChange={(e) => setGender(e.target.value)}
               checked={gender === "Female"}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Race</Form.Label>
             <Form.Check
               type="radio"
@@ -175,8 +176,8 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
                 </Col>
               )}
             </Row>
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Religion</Form.Label>
             <Form.Check
               type="radio"
@@ -239,8 +240,8 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
                 </Col>
               )}
             </Row>
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Address</Form.Label>
             <Form.Control
               as="textarea"
@@ -249,22 +250,22 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
               rows={4}
               maxLength={300}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Telephone No.</Form.Label>
             <Form.Control
               value={telNo}
               onChange={(e) => setTelNo(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Home Phone No.</Form.Label>
             <Form.Control
               value={hpNo}
               onChange={(e) => setHpNO(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
@@ -272,11 +273,11 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </Form.Group>
+          </CommonFormGroup>
 
           {userType === 1 && (
             <Fragment>
-              <Form.Group>
+              <CommonFormGroup>
                 <Form.Label>Work Since</Form.Label>
                 <Form.Control
                   type="date"
@@ -284,36 +285,36 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
                   value={new Date(workSince).toISOString().substring(0, 10)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
+              </CommonFormGroup>
+              <CommonFormGroup>
                 <Form.Label>Office Desk No.</Form.Label>
                 <Form.Control
                   value={officeNo}
                   onChange={(e) => setOfficeNo(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
+              </CommonFormGroup>
+              <CommonFormGroup>
                 <Form.Label>Education</Form.Label>
                 <Form.Control
                   value={education}
                   onChange={(e) => setEducation(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
+              </CommonFormGroup>
+              <CommonFormGroup>
                 <Form.Label>Grade</Form.Label>
                 <Form.Control
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
                   required
                 />
-              </Form.Group>
+              </CommonFormGroup>
             </Fragment>
           )}
           {userType === 2 && (
             <>
-              <Form.Group>
+              <CommonFormGroup>
                 <Form.Label>School Id</Form.Label>
                 <Form.Control
                   type="text"
@@ -321,31 +322,31 @@ const EditModal = ({ showModal, onCloseModal, onSubmitEdit, user }) => {
                   onChange={(e) => setSchoolId(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
+              </CommonFormGroup>
+              <CommonFormGroup>
                 <Form.Label>Disability</Form.Label>
                 <Form.Control
                   type="text"
                   value={disability || ""}
                   onChange={(e) => setDisability(e.target.value)}
                 />
-              </Form.Group>
+              </CommonFormGroup>
             </>
           )}
-          <Row className="d-flex justify-content-end">
-            <Col xs sm="auto">
-              <Button onClick={onCloseModal} variant="secondary">
-                Close
-              </Button>
-            </Col>
-            <Col xs sm="auto">
-              <Button type="submit" variant="primary">
-                Submit
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Modal.Body>
+        </Modal.Body>
+        <Modal.Footer>
+          <Col xs sm="auto">
+            <Button onClick={onCloseModal} variant="secondary">
+              Close
+            </Button>
+          </Col>
+          <Col xs sm="auto">
+            <Button type="submit" variant="primary">
+              Submit
+            </Button>
+          </Col>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 };

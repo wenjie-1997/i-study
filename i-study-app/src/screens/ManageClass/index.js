@@ -9,7 +9,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { deleteClass, getClassList } from "../../thunks/class";
 import * as classSelectors from "../../selectors/class";
 import _ from "lodash";
-import { IoChevronUpOutline, IoChevronDownOutline } from "react-icons/io5";
+import {
+  IoChevronUpOutline,
+  IoChevronDownOutline,
+  IoAddCircleOutline,
+} from "react-icons/io5";
 
 const ManageClass = () => {
   const dispatch = useDispatch();
@@ -23,67 +27,87 @@ const ManageClass = () => {
     dispatch(getClassList());
   }, []);
 
-  const onClickView = (classId) => {
-    navigate(`../view_class/${classId}`);
+  const onClickView = (c) => {
+    localStorage.setItem("class", JSON.stringify(c));
+    navigate(`../view_class/${classSelectors.getClassId(c)}`);
   };
 
   return (
-    <div className="mx-auto my-4 w-75">
-      <Row className="d-flex align-items-center">
-        <Col>
-          <h3 className="my-2">Manage Class</h3>
-        </Col>
-        <Col />
-        <Col xs sm="auto">
-          <Button variant="primary" as={Link} to="../add_class">
-            Add Class
-          </Button>
-        </Col>
-      </Row>
-
-      <div>
-        {Object.keys(classList).map((form) => {
-          const isOpened = openCollapse.includes(form);
-          return (
-            <Card
-              key={form}
-              className="my-2 py-3 px-4 d-flex justtify-content-center"
-            >
-              <div
-                className="d-flex align-items-center justify-content-between"
-                onClick={() => {
-                  let newOpenCollapse = _.clone(openCollapse);
-                  if (isOpened) {
-                    newOpenCollapse = openCollapse.filter((v) => v !== form);
-                  } else newOpenCollapse.push(form);
-                  setOpenCollapse(newOpenCollapse);
-                }}
-              >
-                <h5 className="p-0 m-0">Form {form}</h5>
-                {isOpened ? (
-                  <IoChevronUpOutline size={20} />
-                ) : (
-                  <IoChevronDownOutline size={20} />
-                )}
-              </div>
-              <Collapse in={isOpened}>
-                <div className="my-2">
-                  {classList[form].map((c) => (
-                    <Card
-                      className="py-2 px-3 mb-1"
-                      key={classSelectors.getClassId(c)}
-                      onClick={() => onClickView(classSelectors.getClassId(c))}
-                    >
-                      <Col>{classSelectors.getName(c)}</Col>
-                    </Card>
-                  ))}
-                </div>
-              </Collapse>
-            </Card>
-          );
-        })}
+    <>
+      <div className="pagetitle">
+        <h1>Manage Class</h1>
+        <nav>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">Class</li>
+          </ol>
+        </nav>
       </div>
-    </div>
+
+      <Card>
+        <Card.Body className="pt-4">
+          <div className="d-flex flex-row align-items-center justify-content-between">
+            <p className="card-title m-0 p-0">Available Classes</p>
+            <div
+              className="d-flex flew-row align-items-center justify-content-center"
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={() => navigate("../add_class")}
+            >
+              <IoAddCircleOutline style={{ margin: "0 8px" }} />
+              <b>Add Subject</b>
+            </div>
+          </div>
+
+          <div>
+            {Object.keys(classList).map((form) => {
+              const isOpened = openCollapse.includes(form);
+              return (
+                <Card
+                  key={form}
+                  className="my-2 py-3 px-4 d-flex justtify-content-center"
+                >
+                  <div
+                    className="d-flex align-items-center justify-content-between"
+                    onClick={() => {
+                      let newOpenCollapse = _.clone(openCollapse);
+                      if (isOpened) {
+                        newOpenCollapse = openCollapse.filter(
+                          (v) => v !== form
+                        );
+                      } else newOpenCollapse.push(form);
+                      setOpenCollapse(newOpenCollapse);
+                    }}
+                  >
+                    <h5 className="p-0 m-0">Form {form}</h5>
+                    {isOpened ? (
+                      <IoChevronUpOutline size={20} />
+                    ) : (
+                      <IoChevronDownOutline size={20} />
+                    )}
+                  </div>
+                  <Collapse in={isOpened}>
+                    <div className="my-2">
+                      <hr className="m-0" />
+                      {classList[form].map((c) => (
+                        <div key={classSelectors.getClassId(c)}>
+                          <div
+                            className="py-3 px-2"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => onClickView(c)}
+                          >
+                            {classSelectors.getName(c)}
+                          </div>
+                          <hr className="m-0" />
+                        </div>
+                      ))}
+                    </div>
+                  </Collapse>
+                </Card>
+              );
+            })}
+          </div>
+        </Card.Body>
+      </Card>
+    </>
   );
 };
 

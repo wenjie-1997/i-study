@@ -274,6 +274,7 @@ export const getClassTimetable = (payload) => async (dispatch, state) => {
         }
         return array;
       });
+      localStorage.setItem("timetable", JSON.stringify(timetable));
       dispatch(GET_CLASS_TIMETABLE_SUCCESS(timetable));
     } else {
       dispatch(GET_CLASS_TIMETABLE_FAILED());
@@ -287,9 +288,11 @@ export const getClassTimetable = (payload) => async (dispatch, state) => {
 export const updateClassTimetable = (payload) => async (dispatch, state) => {
   dispatch(UPDATE_TIMETABLE_SLOTS_REQUEST());
   try {
-    const { status } = await classService.updateClassTimetable(payload);
+    console.log(payload.timetableSlots);
+    const { data, status } = await classService.updateClassTimetable(payload);
     if (status === 200) {
-      dispatch(UPDATE_TIMETABLE_SLOTS_SUCCESS());
+      dispatch(UPDATE_TIMETABLE_SLOTS_SUCCESS(data));
+      console.log(data);
       history.back();
     } else {
       dispatch(UPDATE_TIMETABLE_SLOTS_FAILED());

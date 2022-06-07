@@ -30,73 +30,104 @@ const ViewClass = () => {
   useEffect(() => setShowEditModal(false), [selectedClass]);
 
   const onClickEdit = () => setShowEditModal(true);
-  const onClickDelete = () =>
-    dispatch(deleteClass({ classId: params.class_id }));
+  const onClickDelete = () => {
+    if (window.confirm("Do you want to delete this class?"))
+      dispatch(deleteClass({ classId: params.class_id }));
+  };
 
   const onSubmitEdit = (data) => {
     dispatch(updateClass({ classId: params.class_id, ...data }));
   };
   return (
-    <div className="mx-auto my-4 w-75">
-      <Row>
-        <Col>
-          <h3>View Class</h3>
-        </Col>
-        <Col xs sm="auto">
-          <Button variant="success" onClick={onClickEdit}>
-            Edit
-          </Button>
-        </Col>
-        <Col xs sm="auto">
-          <Button variant="danger" onClick={onClickDelete}>
-            Delete
-          </Button>
-        </Col>
-      </Row>
+    <>
+      <div className="pagetitle">
+        <h1>View Class</h1>
+        <nav>
+          <ol className="breadcrumb">
+            <li
+              className="breadcrumb-item"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/dashboard/manage_class")}
+            >
+              Class
+            </li>
+            <li className="breadcrumb-item active">{name}</li>
+          </ol>
+        </nav>
+      </div>
 
-      <Card className="my-2 py-3 px-5 d-flex justtify-content-center">
-        <Row>
-          <Col xs sm={4}>
-            Class Name
-          </Col>
-          <Col>{name}</Col>
-        </Row>
-        <Row>
-          <Col xs sm={4}>
-            Class Form
-          </Col>
-          <Col>{form}</Col>
-        </Row>
-        <Row>
-          <Col xs sm={4}>
-            Class Teacher
-          </Col>
-          <Col>{classTeacherName}</Col>
-        </Row>
-        <Row>
-          <Col xs sm={4}>
-            Year
-          </Col>
-          <Col>{year}</Col>
-        </Row>
-        <u
-          style={{ color: "blue", cursor: "pointer" }}
-          onClick={() => navigate("../view_class/subject/" + params.class_id)}
-        >
-          <i>View Subject</i>
-        </u>
-        <u
-          style={{ color: "blue", cursor: "pointer" }}
-          onClick={() => navigate("../view_class/student/" + params.class_id)}
-        >
-          <i>View Student</i>
-        </u>
-        <u
-          style={{ color: "blue", cursor: "pointer" }}
-          onClick={() => navigate("../view_class/timetable/" + params.class_id)}
-        >
-          <i>View Timetable</i>
-        </u>
+      <Card>
+        <Card.Body className="pt-4">
+          <div
+            style={{ position: "absolute", right: 10, top: -45 }}
+            className="d-flex flex-row"
+          >
+            <Button variant="success" onClick={onClickEdit} className="me-2">
+              Edit
+            </Button>
+            <Button variant="danger" onClick={onClickDelete}>
+              Delete
+            </Button>
+          </div>
+          <div className="d-flex flex-row px-3" style={styles.row}>
+            <Col xs sm={4}>
+              Class Name
+            </Col>
+            <Col>{name}</Col>
+          </div>
+          <div className="d-flex flex-row px-3" style={styles.row}>
+            <Col xs sm={4}>
+              Class Form
+            </Col>
+            <Col>{form}</Col>
+          </div>
+          <div className="d-flex flex-row px-3" style={styles.row}>
+            <Col xs sm={4}>
+              Class Teacher
+            </Col>
+            <Col>{classTeacherName}</Col>
+          </div>
+          <div className="d-flex flex-row px-3" style={styles.row}>
+            <Col xs sm={4}>
+              Year
+            </Col>
+            <Col>{year}</Col>
+          </div>
+          <div className="d-flex flex-row px-3" style={styles.row}>
+            <Col xs sm={4}>
+              Operation
+            </Col>
+            <Col>
+              <u
+                style={{ color: "blue", cursor: "pointer" }}
+                onClick={() =>
+                  navigate("../view_class/subject/" + params.class_id)
+                }
+              >
+                <i>View Subject</i>
+              </u>
+              <br />
+              <u
+                style={{ color: "blue", cursor: "pointer" }}
+                onClick={() =>
+                  navigate("../view_class/student/" + params.class_id)
+                }
+              >
+                <i>View Student</i>
+              </u>
+              <br />
+              <u
+                style={{ color: "blue", cursor: "pointer" }}
+                onClick={() =>
+                  navigate("../view_class/timetable/" + params.class_id)
+                }
+              >
+                <i>View Timetable</i>
+              </u>
+              <br />
+            </Col>
+          </div>
+        </Card.Body>
       </Card>
       <EditModal
         showModal={showEditModal}
@@ -104,8 +135,17 @@ const ViewClass = () => {
         onSubmitEdit={onSubmitEdit}
         selectedClass={selectedClass}
       />
-    </div>
+    </>
   );
 };
 
 export default ViewClass;
+const styles = {
+  row: {
+    minHeight: "60px",
+    display: "flex",
+    alignItems: "center",
+    // backgroundColor: "lightgray",
+    border: "1px lightgrey solid",
+  },
+};

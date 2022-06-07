@@ -6,6 +6,7 @@ module.exports = {
     subject_name,
     subject_code,
     teacher_name,
+    class_name,
   }) => ({
     ...(subject_id && { subjectId: subject_id }),
     ...(name && { name }),
@@ -13,5 +14,6 @@ module.exports = {
     ...(subject_name && { subjectName: subject_name }),
     ...(subject_code && { subjectCode: subject_code }),
     ...(teacher_name && { teacherName: teacher_name }),
+    ...(class_name && { className: class_name }),
   }),
 };

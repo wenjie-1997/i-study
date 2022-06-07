@@ -32,9 +32,9 @@ const EditModal = ({ showModal, onCloseModal, subject }) => {
 
   return (
     <Modal show={showModal}>
-      <Modal.Header>Edit Subject</Modal.Header>
-      <Modal.Body>
-        <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit}>
+        <Modal.Header>Edit Subject</Modal.Header>
+        <Modal.Body>
           <FormGroup>
             <Form.Label>Subject Name</Form.Label>
             <Form.Control
@@ -49,18 +49,14 @@ const EditModal = ({ showModal, onCloseModal, subject }) => {
               onChange={(e) => setCode(e.target.value)}
             />
           </FormGroup>
-          <Row className="d-flex justify-content-end">
-            <Col xs sm="auto">
-              <Button variant="secondary" onClick={onCloseModal}>
-                Cancel
-              </Button>
-            </Col>
-            <Col xs sm="auto">
-              <Button type="submit">Update</Button>
-            </Col>
-          </Row>
-        </form>
-      </Modal.Body>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onCloseModal}>
+            Cancel
+          </Button>
+          <Button type="submit">Update</Button>
+        </Modal.Footer>
+      </form>
     </Modal>
   );
 };

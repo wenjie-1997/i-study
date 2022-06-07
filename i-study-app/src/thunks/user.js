@@ -39,10 +39,10 @@ export const getUserProfile = () => async (dispatch, getState) => {
   }
 };
 
-export const getUserList = () => async (dispatch, getState) => {
+export const getUserList = (payload) => async (dispatch, getState) => {
   dispatch(GET_USER_LIST_REQUEST());
   try {
-    const { data, status } = await userService.getUserList();
+    const { data, status } = await userService.getUserList(payload);
 
     if (status === 200) {
       dispatch(GET_USER_LIST_SUCCESS(data));
@@ -124,19 +124,16 @@ export const register = (payload) => async (dispatch, getState) => {
 
 export const updateUserProfile = (payload) => async (dispatch, getState) => {
   const state = getState();
-  let userType = 0;
+  let userType = parseInt(localStorage.getItem("userType"));
   let studentId = 0;
   let teacherId = 0;
-  if (payload?.userId) {
+  if (userType === USER_TYPE_NUMBER.ADMIN) {
     userType = payload.userType;
     studentId = payload.studentId;
     teacherId = payload.teacherId;
   } else {
-    const auth = selectors.getAuth(state);
-    userType = authSelectors.getUserType(auth);
-
-    studentId = authSelectors.getStudentId(auth);
-    teacherId = authSelectors.getTeacherId(auth);
+    studentId = parseInt(localStorage.getItem("studentId"));
+    teacherId = parseInt(localStorage.getItem("teacherId"));
   }
 
   dispatch(UPDATE_USER_PROFILE_REQUEST());
@@ -155,10 +152,6 @@ export const updateUserProfile = (payload) => async (dispatch, getState) => {
       } else dispatch(UPDATE_USER_PROFILE_FAILED());
     }
     if (userType === USER_TYPE_NUMBER.STUDENT) {
-      console.log({
-        studentId,
-        ...payload,
-      });
       const { data, status } = await studentService.updateStudentProfile({
         studentId,
         ...payload,
@@ -192,9 +185,7 @@ export const deleteUser = (data) => async (dispatch, getState) => {
 };
 
 export const changePassword = (payload) => async (dispatch, getState) => {
-  const state = getState();
-  const auth = selectors.getAuth(state);
-  const username = authSelectors.getUsername(auth);
+  const username = localStorage.getItem("username");
   const { onCloseModal, setIsOldPasswordInvalid } = payload;
   dispatch(CHANGE_PASSWORD_REQUEST());
   try {

@@ -9,6 +9,8 @@ export const getClassSubjectList = (state) =>
 export const getClassStudentList = (state) =>
   _.get(state, "selectedClassStudentList", []);
 export const getTimetableSlots = (state) => _.get(state, "timetableSlots", []);
+export const getFailedResponse = (state) =>
+  _.get(state, "failedResponse", null);
 
 export const getClassId = (state) => _.get(state, "classId", 0);
 export const getName = (state) => _.get(state, "name", "");
@@ -23,3 +25,8 @@ export const getSubjectName = (state) => _.get(state, "subjectName", "");
 export const getTeacherName = (state) => _.get(state, "teacherName", "");
 export const getStudentId = (state) => _.get(state, "studentId", 0);
 export const getStudentName = (state) => _.get(state, "studentName", "");
+
+export const getUnavailableSlotList = (state) =>
+  _.get(state, "unavailableSlotList", []);
+export const getCrashedSlotList = (state) =>
+  _.get(state, "crashedSlotList", []);

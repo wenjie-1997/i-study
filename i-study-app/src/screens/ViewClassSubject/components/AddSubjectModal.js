@@ -12,6 +12,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import TeacherModal from "./TeacherModal";
 import { addClassSubject } from "../../../thunks/class";
 import { useParams } from "react-router-dom";
+import CommonFormGroup from "../../common/CommonFormGroup";
 
 const AddSubjectModal = ({ showModal, onCloseModal }) => {
   const params = useParams();
@@ -40,6 +41,8 @@ const AddSubjectModal = ({ showModal, onCloseModal }) => {
     setTeacherId(userSelectors.getTeacherId(teacher));
   };
 
+  const getIsSubmitDisabled = () => !teacherId || !subjectId;
+
   const onSubmitSubject = (e) => {
     e.preventDefault();
     dispatch(
@@ -49,10 +52,10 @@ const AddSubjectModal = ({ showModal, onCloseModal }) => {
   return (
     <>
       <Modal show={showModal} scrollable>
-        <Modal.Header>Add Subject</Modal.Header>
-        <Modal.Body>
-          <form onSubmit={onSubmitSubject}>
-            <FormGroup>
+        <form onSubmit={onSubmitSubject}>
+          <Modal.Header>Add Subject</Modal.Header>
+          <Modal.Body>
+            <CommonFormGroup>
               <Form.Label>Subject</Form.Label>
               <Form.Select
                 value={subjectId}
@@ -68,8 +71,8 @@ const AddSubjectModal = ({ showModal, onCloseModal }) => {
                   </option>
                 ))}
               </Form.Select>
-            </FormGroup>
-            <FormGroup>
+            </CommonFormGroup>
+            <CommonFormGroup>
               <Form.Label>Taught By</Form.Label>
               {teacherId ? (
                 <InputGroup>
@@ -86,19 +89,17 @@ const AddSubjectModal = ({ showModal, onCloseModal }) => {
                   Select
                 </Button>
               )}
-            </FormGroup>
-            <div className="d-flex flex-row justify-content-end">
-              <Button
-                variant="secondary"
-                onClick={onCloseModal}
-                className="mx-2"
-              >
-                Close
-              </Button>
-              <Button type="submit">Submit</Button>
-            </div>
-          </form>
-        </Modal.Body>
+            </CommonFormGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={onCloseModal}>
+              Close
+            </Button>
+            <Button disabled={getIsSubmitDisabled()} type="submit">
+              Submit
+            </Button>
+          </Modal.Footer>
+        </form>
       </Modal>
       <TeacherModal
         showModal={showTeacherModal}

@@ -2,6 +2,7 @@ module.exports = {
   classToDto: ({
     class_id,
     name,
+    class_name,
     class_teacher_id,
     form,
     year,
@@ -13,5 +14,6 @@ module.exports = {
     ...(class_teacher_name && { classTeacherName: class_teacher_name }),
     ...(form && { form }),
     ...(year && { year }),
+    ...(class_name && { className: class_name }),
   }),
 };

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Collapse from "react-bootstrap/Collapse";
 import Card from "react-bootstrap/Card";
@@ -11,10 +11,12 @@ import * as classSelectors from "../../selectors/class";
 import { getClassSubjectList } from "../../thunks/class";
 import { DAYS } from "../../utilities/constants";
 import { updateClassTimetable } from "../../thunks/class";
+import { IoChevronDownOutline, IoChevronUpOutline } from "react-icons/io5";
 
 const EditClassTimetable = () => {
   const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [collapseIsOpen, setCollapseIsOpen] = useState(Array(5).fill(false));
   const [isAddingSubject, setIsAddingSubject] = useState(false);
   const [unavailableTimeslots, setUnavailableTimeslots] = useState(
@@ -25,27 +27,31 @@ const EditClassTimetable = () => {
   const [selectedSubjectName, setSelectedSubjectName] = useState("");
   const [selectedStartingSlot, setSelectedStartingSlot] = useState("");
   const [selectedNoOfSlot, setSelectedNoOfSlot] = useState("");
+  const [className, setClassName] = useState("");
 
   const classModal = useSelector((state) => state.class);
-  const timetableSlots = classSelectors.getTimetableSlots(classModal);
   const subjectList = classSelectors.getClassSubjectList(classModal);
   const dayRows = [...Array(5).keys()];
 
-  const calculateUnavailableTimeSlot = (rowSlots) =>
-    rowSlots.reduce((previousValue, currentElement) => {
-      for (let i = 0; i < currentElement.no_of_slots; i++) {
-        previousValue.push(currentElement.starting_slot + i);
-      }
-      return previousValue;
-    }, []);
-
   useEffect(() => {
+    const classObj = JSON.parse(localStorage.getItem("class"));
+    const timetableSlots = JSON.parse(localStorage.getItem("timetable"));
     setEditingTimetableSlots(
       timetableSlots.map((rowSlots) =>
         rowSlots.filter((slot) => slot?.timetable_slot_id)
       )
     );
-  }, [timetableSlots]);
+    setClassName(classSelectors.getName(classObj));
+    dispatch(getClassSubjectList({ classId: params.class_id }));
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   setEditingTimetableSlots(
+  //     timetableSlots.map((rowSlots) =>
+  //       rowSlots.filter((slot) => slot?.timetable_slot_id)
+  //     )
+  //   );
+  // }, [timetableSlots]);
 
   useEffect(() => {
     editingTimetableSlots.forEach((rowSlot, rowIndex) => {
@@ -60,11 +66,6 @@ const EditClassTimetable = () => {
     setSelectedNoOfSlot("");
   }, [editingTimetableSlots]);
 
-  useEffect(
-    () => dispatch(getClassSubjectList({ classId: params.class_id })),
-    [dispatch]
-  );
-
   useEffect(() => {
     if (isAddingSubject) {
       setIsAddingSubject(false);
@@ -73,6 +74,14 @@ const EditClassTimetable = () => {
       setSelectedNoOfSlot("");
     }
   }, [collapseIsOpen]);
+
+  const calculateUnavailableTimeSlot = (rowSlots) =>
+    rowSlots.reduce((previousValue, currentElement) => {
+      for (let i = 0; i < currentElement.no_of_slots; i++) {
+        previousValue.push(currentElement.starting_slot + i);
+      }
+      return previousValue;
+    }, []);
 
   const onClickCollapse = (rowIndex) => {
     let collapseIsOpenCopy = [...collapseIsOpen];
@@ -114,21 +123,60 @@ const EditClassTimetable = () => {
   };
 
   return (
-    <div className="mx-auto my-4 w-75">
-      <div className="d-flex flex-row">
-        <h3>Edit Class Timetable</h3>
-        <div className="flex-grow-1" />
-        <Button onClick={() => onUpdateTimetable()}>Update</Button>
+    <>
+      <div className="pagetitle">
+        <h1>Edit Class Subject</h1>
+        <nav>
+          <ol className="breadcrumb">
+            <li
+              className="breadcrumb-item"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/dashboard/manage_class")}
+            >
+              Class
+            </li>
+            <li
+              className="breadcrumb-item"
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                navigate("/dashboard/view_class/" + params.class_id)
+              }
+            >
+              {className}
+            </li>
+            <li
+              className="breadcrumb-item"
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                navigate("/dashboard/view_class/timetable/" + params.class_id)
+              }
+            >
+              Class Timetable
+            </li>
+            <li className="breadcrumb-item active">Edit Class Timetable</li>
+          </ol>
+        </nav>
       </div>
+
       <Card className="my-2 py-4 px-5 d-flex justtify-content-center">
         {dayRows.map((rowIndex) => (
           <Fragment key={rowIndex}>
-            <div onClick={() => onClickCollapse(rowIndex)}>
-              <h4 style={{ margin: 0, padding: 0 }}>{DAYS[rowIndex]}</h4>
+            <div
+              onClick={() => onClickCollapse(rowIndex)}
+              className="d-flex flex-row justify-content-between align-items-center"
+            >
+              <h4 className="py-3 m-0" style={{ fontWeight: "bold" }}>
+                {DAYS[rowIndex]}
+              </h4>
+              {collapseIsOpen[rowIndex] ? (
+                <IoChevronUpOutline size={20} className="me-3" />
+              ) : (
+                <IoChevronDownOutline size={20} className="me-3" />
+              )}
             </div>
-            <hr />
+            <hr className="m-0 p-0" />
             <Collapse in={collapseIsOpen[rowIndex]}>
-              <div>
+              <div className="mb-3">
                 <Table>
                   <tbody>
                     {editingTimetableSlots?.length !== 0 &&
@@ -148,6 +196,7 @@ const EditClassTimetable = () => {
                           </td>
                           <td width="20%">
                             <Button
+                              variant="danger"
                               onClick={() =>
                                 deleteSubjectFromTimetable(rowIndex, index)
                               }
@@ -289,8 +338,11 @@ const EditClassTimetable = () => {
             </Collapse>
           </Fragment>
         ))}
+        <div className="d-flex justify-content-center mt-2">
+          <Button onClick={() => onUpdateTimetable()}>Update Timetable</Button>
+        </div>
       </Card>
-    </div>
+    </>
   );
 };
 

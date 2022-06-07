@@ -39,3 +39,13 @@ export const searchTeacherByName = async ({ searchText }) =>
   await http.get(`${endpoint}/search_by_name`, {
     params: { searchText },
   });
+
+export const getTeacherTimetable = async ({ teacherId }) =>
+  await http.get(`${endpoint}/timetable`, {
+    params: { teacherId },
+  });
+
+export const getTeacherSubjectList = async ({ teacherId }) =>
+  await http.get(`${endpoint}/subject`, {
+    params: { teacherId },
+  });

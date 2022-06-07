@@ -52,6 +52,14 @@ class Student {
     ]);
     return this.rowToArray(row);
   };
+
+  getSubjectByStudentId = async ({ studentId }) => {
+    const row = await db.query("CALL select_class_subject_by_student_id(?)", [
+      studentId,
+    ]);
+    return this.rowToArray(row);
+  };
+
   rowToArray(sqlRows) {
     if (!sqlRows) return null;
     return JSON.parse(JSON.stringify(sqlRows[0]));

@@ -8,6 +8,7 @@ import {
   VERIFY_TOKEN_SUCCESS,
 } from "../reducers/auth";
 import * as userService from "../services/userService";
+import { USER_TYPE_NUMBER } from "../utilities/constants";
 import history from "../utilities/history";
 
 export const login = (payload) => async (dispatch, getState) => {
@@ -16,8 +17,17 @@ export const login = (payload) => async (dispatch, getState) => {
     const { username, password } = payload;
     const { status, data } = await userService.login(username, password);
     if (status === 200) {
-      console.log(data);
       localStorage.setItem("accessToken", data.jwt);
+      localStorage.setItem("userId", data.userId);
+      localStorage.setItem("name", data.name);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("userType", data.userType);
+      if (data.userType === USER_TYPE_NUMBER.STUDENT) {
+        localStorage.setItem("studentId", data.studentId);
+        localStorage.setItem("className", data.className);
+      }
+      if (data.userType === USER_TYPE_NUMBER.TEACHER)
+        localStorage.setItem("teacherId", data.teacherId);
       dispatch(LOGIN_SUCCESS(data));
       history.replace("/dashboard");
     } else {
@@ -36,6 +46,7 @@ export const verifyToken = () => async (dispatch) => {
     const { jwt } = data;
     if (status === 200) {
       localStorage.setItem("accessToken", jwt);
+
       dispatch(VERIFY_TOKEN_SUCCESS(data));
     } else {
       dispatch(VERIFY_TOKEN_FAILED());
@@ -48,7 +59,7 @@ export const verifyToken = () => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch, getState) => {
-  localStorage.removeItem("accessToken");
+  localStorage.clear();
   dispatch(LOGOUT_SUCCESS());
   history.replace("/");
 };

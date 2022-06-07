@@ -72,6 +72,18 @@ class Class {
     return this.rowToArray(row);
   };
 
+  getOccupiedTimetableSlotByClassSubjectId = async ({
+    classSubjectId,
+    day,
+    slotNo,
+  }) => {
+    const row = await db.query(
+      "CALL select_occupied_timetable_slots_with_class_subject_id(?,?,?)",
+      [classSubjectId, day, slotNo]
+    );
+    return this.rowToArray(row);
+  };
+
   insertTimetableSlot = async ({
     class_subject_id,
     day,

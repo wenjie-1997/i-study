@@ -41,3 +41,8 @@ export const getStudentTimetable = async ({ studentId }) =>
   await http.get(`${endpoint}/timetable`, {
     params: { studentId },
   });
+
+export const getStudentSubjectList = async ({ studentId }) =>
+  await http.get(`${endpoint}/subject`, {
+    params: { studentId },
+  });

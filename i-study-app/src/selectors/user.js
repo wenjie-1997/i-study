@@ -29,6 +29,7 @@ export const getEducation = (state) => _.get(state, "education", "");
 export const getOfficeNo = (state) => _.get(state, "officeNo", "");
 export const getWorkSince = (state) => _.get(state, "workSince", null);
 export const getGrade = (state) => _.get(state, "grade", "");
+export const getClassName = (state) => _.get(state, "className", "-");
 
 export const getIsInvalid = (state) => _.get(state, "isInvalid", false);
 export const getIsUpdated = (state) => _.get(state, "isUpdated", false);

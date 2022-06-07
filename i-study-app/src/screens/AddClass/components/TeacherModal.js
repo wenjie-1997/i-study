@@ -11,6 +11,7 @@ import { searchTeacherByName } from "../../../thunks/class";
 import * as classSelectors from "../../../selectors/class";
 import * as userSelectors from "../../../selectors/user";
 import { IoSearch } from "react-icons/io5";
+import CommonFormGroup from "../../common/CommonFormGroup";
 
 const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
   const [searchText, setSearchText] = useState("");
@@ -50,7 +51,7 @@ const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
     <Modal show={showModal} scrollable dialogClassName="h-100">
       <Modal.Header>Select Class Teacher</Modal.Header>
       <Modal.Body>
-        <Form.Group className="mb-3">
+        <CommonFormGroup className="mb-3">
           <InputGroup>
             <InputGroup.Text>
               <IoSearch />
@@ -62,7 +63,7 @@ const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
               onChange={onChangeText}
             />
           </InputGroup>
-        </Form.Group>
+        </CommonFormGroup>
         <div>
           {teacherList.map((t) => (
             <Card
@@ -73,7 +74,7 @@ const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
               }
               onClick={() => onSelectTeacher(t)}
             >
-              <Card.Body>{userSelectors.getName(t)}</Card.Body>
+              <Card.Body className="py-3">{userSelectors.getName(t)}</Card.Body>
             </Card>
           ))}
         </div>

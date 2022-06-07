@@ -45,6 +45,20 @@ class Teacher {
     }
   };
 
+  getTimetableByTeacherId = async ({ teacherId }) => {
+    const row = await db.query("CALL select_class_timetable_by_teacher_id(?)", [
+      teacherId,
+    ]);
+    return this.rowToArray(row);
+  };
+
+  getSubjectByTeacherId = async ({ teacherId }) => {
+    const row = await db.query("CALL select_class_subject_by_teacher_id(?)", [
+      teacherId,
+    ]);
+    return this.rowToArray(row);
+  };
+
   searchByName = async ({ searchText }) => {
     const row = await db.query("CALL search_teacher_by_name(?)", [searchText]);
     return this.rowToArray(row);

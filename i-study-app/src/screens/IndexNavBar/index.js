@@ -6,43 +6,44 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { useSelector } from "react-redux";
 import * as userSelectors from "../../selectors/user";
+import * as authSelectors from "../../selectors/auth";
 
 const IndexNavBar = () => {
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.user);
-  const auth = userSelectors.getUser(user);
+  const auth = useSelector((state) => state.auth);
+
+  const userId = authSelectors.getUserId(auth);
 
   useEffect(() => {
-    if (auth !== null) {
+    if (userId) {
       navigate("/dashboard", { replace: true });
     }
   }, [auth, navigate]);
 
   return (
-    <Fragment>
-      <Navbar bg="light">
-        <Container>
-          <Navbar.Brand>I Study</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="">
-              Welcome
-            </Nav.Link>
-            <Nav.Link as={Link} to="about">
-              About
-            </Nav.Link>
-          </Nav>
-          <Nav className="justify-content-end">
-            <Button variant="danger" as={Link} to="login">
-              Login
-            </Button>
-          </Nav>
-        </Container>
-      </Navbar>
-      <div className="h-100">
+    <div className="toggle-sidebar">
+      <header
+        id="header"
+        className="header fixed-top d-flex align-items-center"
+      >
+        <div className="d-flex align-items-center justify-content-between">
+          <Link to="/" className="logo d-flex align-items-center">
+            <span>I-Study</span>
+          </Link>
+        </div>
+
+        <nav className="header-nav ms-auto mx-3">
+          <Button variant="secondary" as={Link} to="login">
+            Login
+          </Button>
+        </nav>
+      </header>
+      <main className="main">
         <Outlet />
-      </div>
-    </Fragment>
+      </main>
+    </div>
   );
 };
 

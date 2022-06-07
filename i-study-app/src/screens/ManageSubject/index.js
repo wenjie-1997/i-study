@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import EditModal from "./components/EditModal";
 import { useNavigate } from "react-router-dom";
+import { IoAddCircleOutline } from "react-icons/io5";
 
 const ManageSubject = () => {
   const dispatch = useDispatch();
@@ -29,18 +30,40 @@ const ManageSubject = () => {
   };
 
   const onClickDelete = (s) => {
-    dispatch(deleteSubject({ subjectId: subjectSelectors.getSubjectId(s) }));
+    if (
+      window.confirm(
+        `Are you sure to delete the subject named ${subjectSelectors.getName(
+          s
+        )}?`
+      )
+    )
+      dispatch(deleteSubject({ subjectId: subjectSelectors.getSubjectId(s) }));
   };
 
   return (
     <>
-      <div className="mx-auto my-4 w-75">
-        <div className="d-flex flex-row justify-content-between">
-          <h3>Manage Subject</h3>
-          <Button onClick={onClickAdd}>Add Subject</Button>
-        </div>
-        <Card className="py-5 px-5 justify-content-flex-start">
-          <Table>
+      <div className="pagetitle">
+        <h1>Manage Subject</h1>
+        <nav>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">Subject</li>
+          </ol>
+        </nav>
+      </div>
+
+      <Card className="card">
+        <Card.Body className="card-body pt-4">
+          <div className="d-flex flex-row justify-content-end">
+            <div
+              className="d-flex flew-row align-items-center justify-content-center"
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={onClickAdd}
+            >
+              <IoAddCircleOutline style={{ margin: "0 8px" }} />
+              <b>Add Subject</b>
+            </div>
+          </div>
+          <Table className="my-2" bordered>
             <thead>
               <tr>
                 <th className="text-center">Subject Name</th>
@@ -69,8 +92,8 @@ const ManageSubject = () => {
               ))}
             </tbody>
           </Table>
-        </Card>
-      </div>
+        </Card.Body>
+      </Card>
       <EditModal
         showModal={showEditModal}
         onCloseModal={() => setShowEditModal(false)}

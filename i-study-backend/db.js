@@ -7,18 +7,13 @@ class Database {
     Database.instance = this;
 
     this.pool = mysql.createPool({
-    //   connectionLimit: process.env.DATABASE_CONNECTION_LIMIT || 10,
-    //   host: process.env.DATABASE_HOST,
-    //   user: process.env.DATABASE_USER,
-    //   password: process.env.DATABASE_PASSWORD,
-    //   database: process.env.DATABASE_NAME,
-    //   multipleStatements: true,
-        connectionLimit:10,
-        host:'localhost',
-        user:'root',
-        password: '',
-        database:'i_study',
-        multipleStatements: true
+      connectionLimit: process.env.DATABASE_CONNECTION_LIMIT || 10,
+      host: process.env.DATABASE_HOST || "localhost",
+      user: process.env.DATABASE_USER || "root",
+      password: process.env.DATABASE_PASSWORD || "",
+      database: process.env.DATABASE_NAME || "i_study",
+      multipleStatements: true,
+      timezone: "Z",
     });
   }
 

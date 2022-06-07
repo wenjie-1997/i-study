@@ -7,9 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import * as userSelectors from "../../selectors/user";
 import { addClass } from "../../thunks/class";
 import TeacherModal from "./components/TeacherModal";
+import CommonDiv from "../common/CommonDiv";
+import CommonFormGroup from "../common/CommonFormGroup";
+import { useNavigate } from "react-router-dom";
 
 const AddClass = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [form, setForm] = useState("");
@@ -29,36 +33,53 @@ const AddClass = () => {
   };
   return (
     <>
-      <div className="mx-auto my-4 w-75">
-        <h3>Add Class</h3>
-        <Card className="py-5 px-5 justify-content-flex-start">
-          <Form onSubmit={onSubmit}>
-            <Form.Group>
-              <Form.Label>Class Name</Form.Label>
-              <Form.Control
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Form</Form.Label>
-              <Form.Select
-                value={form}
-                onChange={(e) => setForm(parseInt(e.target.value) || "")}
-                required
-              >
-                <option value="">-- Please Select --</option>
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group>
+      {" "}
+      <div className="pagetitle">
+        <h1>Add Class</h1>
+        <nav>
+          <ol className="breadcrumb">
+            <li
+              className="breadcrumb-item"
+              onClick={() => navigate("../manage_class")}
+            >
+              Class
+            </li>
+
+            <li class="breadcrumb-item active">Add Class</li>
+          </ol>
+        </nav>
+      </div>
+      <Card>
+        <Form onSubmit={onSubmit}>
+          <Card.Body className="pt-3 ">
+            <div className="row g-3">
+              <CommonFormGroup class="col-md-6">
+                <Form.Label>Class Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </CommonFormGroup>
+              <CommonFormGroup class="col-md-6">
+                <Form.Label>Form</Form.Label>
+                <Form.Select
+                  value={form}
+                  onChange={(e) => setForm(parseInt(e.target.value) || "")}
+                  required
+                >
+                  <option value="">-- Please Select --</option>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={6}>6</option>
+                </Form.Select>
+              </CommonFormGroup>
+            </div>
+            <CommonFormGroup>
               <Form.Label>Class Teacher</Form.Label>
               {teacherId ? (
                 <InputGroup>
@@ -75,13 +96,13 @@ const AddClass = () => {
                   Select
                 </Button>
               )}
-            </Form.Group>
-            <Button type="submit" className="mt-3">
+            </CommonFormGroup>
+            <Button type="submit" className="mt-2">
               Submit
             </Button>
-          </Form>
-        </Card>
-      </div>
+          </Card.Body>
+        </Form>
+      </Card>
       <TeacherModal
         showModal={showTeacherModal}
         onCloseModal={() => setShowTeacherModal(false)}

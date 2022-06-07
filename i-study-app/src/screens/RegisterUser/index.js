@@ -7,9 +7,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../thunks/user";
+import CommonFormGroup from "../common/CommonFormGroup";
+import { useNavigate } from "react-router-dom";
 
 const RegisterUser = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.user);
 
@@ -70,42 +73,57 @@ const RegisterUser = () => {
     );
   };
   return (
-    <div className="mx-auto my-4 w-75">
-      <h3>Register User</h3>
-      <Card className="py-5 px-5 justify-content-flex-start">
+    <>
+      <div class="pagetitle">
+        <h1>Register User</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li
+              class="breadcrumb-item"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("./..")}
+            >
+              User
+            </li>
+            <li class="breadcrumb-item active">Register User</li>
+          </ol>
+        </nav>
+      </div>
+
+      <Card className="py-4 px-5 justify-content-flex-start">
         <Form onSubmit={onSubmit}>
-          <Form.Group>
+          <CommonFormGroup>
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Birthday</Form.Label>
             <Form.Control
               type="date"
               onChange={(e) => setBirthday(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Gender</Form.Label>
             <Form.Check
               type="radio"
@@ -121,8 +139,8 @@ const RegisterUser = () => {
               value="Female"
               onChange={(e) => setGender(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Race</Form.Label>
             <Form.Check
               type="radio"
@@ -164,8 +182,8 @@ const RegisterUser = () => {
                 </Col>
               )}
             </Row>
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Religion</Form.Label>
             <Form.Check
               type="radio"
@@ -218,8 +236,8 @@ const RegisterUser = () => {
                 </Col>
               )}
             </Row>
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Address</Form.Label>
             <Form.Control
               as="textarea"
@@ -228,22 +246,22 @@ const RegisterUser = () => {
               rows={4}
               maxLength={300}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Telephone No.</Form.Label>
             <Form.Control
               value={telNo}
               onChange={(e) => setTelNo(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Home Phone No.</Form.Label>
             <Form.Control
               value={hpNo}
               onChange={(e) => setHpNO(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
@@ -251,8 +269,8 @@ const RegisterUser = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </Form.Group>
-          <Form.Group>
+          </CommonFormGroup>
+          <CommonFormGroup>
             <Form.Label>User Type</Form.Label>
             <Form.Select
               value={userType}
@@ -262,46 +280,46 @@ const RegisterUser = () => {
               <option value={USER_TYPE_NUMBER.STUDENT}>Student</option>
               <option value={USER_TYPE_NUMBER.TEACHER}>Teacher</option>
             </Form.Select>
-          </Form.Group>
+          </CommonFormGroup>
           {userType === 1 && (
             <Fragment>
-              <Form.Group>
+              <CommonFormGroup>
                 <Form.Label>Work Since</Form.Label>
                 <Form.Control
                   type="date"
                   onChange={(e) => setWorkSince(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
+              </CommonFormGroup>
+              <CommonFormGroup>
                 <Form.Label>Office Desk No.</Form.Label>
                 <Form.Control
                   value={officeNo}
                   onChange={(e) => setOfficeNo(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
+              </CommonFormGroup>
+              <CommonFormGroup>
                 <Form.Label>Education</Form.Label>
                 <Form.Control
                   value={education}
                   onChange={(e) => setEducation(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
+              </CommonFormGroup>
+              <CommonFormGroup>
                 <Form.Label>Grade</Form.Label>
                 <Form.Control
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
                   required
                 />
-              </Form.Group>
+              </CommonFormGroup>
             </Fragment>
           )}
           {userType === 2 && (
             <>
-              <Form.Group>
+              <CommonFormGroup>
                 <Form.Label>School Id</Form.Label>
                 <Form.Control
                   type="text"
@@ -309,15 +327,15 @@ const RegisterUser = () => {
                   onChange={(e) => setSchoolId(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
+              </CommonFormGroup>
+              <CommonFormGroup>
                 <Form.Label>Disability</Form.Label>
                 <Form.Control
                   type="text"
                   value={disability}
                   onChange={(e) => setDisability(e.target.value)}
                 />
-              </Form.Group>
+              </CommonFormGroup>
             </>
           )}
           <br />
@@ -326,7 +344,7 @@ const RegisterUser = () => {
           </Button>
         </Form>
       </Card>
-    </div>
+    </>
   );
 };
 

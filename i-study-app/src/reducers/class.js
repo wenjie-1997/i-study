@@ -9,6 +9,7 @@ const slice = createSlice({
     teacherList: [],
     studentList: [],
     timetableSlots: [],
+    failedResponse: null,
   },
   reducers: {
     GET_CLASS_LIST_REQUEST: () => {},
@@ -76,8 +77,13 @@ const slice = createSlice({
     },
     GET_CLASS_TIMETABLE_FAILED: () => {},
     UPDATE_TIMETABLE_SLOTS_REQUEST: () => {},
-    UPDATE_TIMETABLE_SLOTS_SUCCESS: () => {},
+    UPDATE_TIMETABLE_SLOTS_SUCCESS: (state, action) => {
+      if (action.payload) state.failedResponse = action.payload;
+    },
     UPDATE_TIMETABLE_SLOTS_FAILED: () => {},
+    CLOSE_FAILED_RESPONSE_MODAL: (state) => {
+      state.failedResponse = null;
+    },
   },
 });
 
@@ -133,5 +139,6 @@ export const {
   UPDATE_TIMETABLE_SLOTS_REQUEST,
   UPDATE_TIMETABLE_SLOTS_SUCCESS,
   UPDATE_TIMETABLE_SLOTS_FAILED,
+  CLOSE_FAILED_RESPONSE_MODAL,
 } = slice.actions;
 export default slice.reducer;

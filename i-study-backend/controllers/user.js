@@ -4,6 +4,7 @@ const constants = require("../utilities/constants");
 const userDto = require("../dto/user");
 const studentDto = require("../dto/student");
 const teacherDto = require("../dto/teacher");
+const classDto = require("../dto/class");
 
 class UserController {
   registerStudent = async (req, res, next) => {
@@ -55,7 +56,7 @@ class UserController {
 
   viewUsers = async (req, res, next) => {
     try {
-      let result = await User.viewUsers();
+      let result = await User.viewUsers(req.query);
 
       result = result.map((element) => {
         delete element.password;
@@ -74,7 +75,7 @@ class UserController {
   };
   viewTeachers = async (req, res, next) => {
     try {
-      const result = await User.viewUsers(1);
+      const result = await User.viewUsers({ userType: 1 });
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -83,7 +84,7 @@ class UserController {
   };
   viewStudents = async (req, res, next) => {
     try {
-      const result = await User.viewUsers(2);
+      const result = await User.viewUsers({ userType: 2 });
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -102,6 +103,7 @@ class UserController {
       res.json({
         jwt: result[0].jwt,
         ...userDto.userToDto(result[0]),
+        ...classDto.classToDto(result[0]),
         username: req.body.username,
       });
     } catch (error) {

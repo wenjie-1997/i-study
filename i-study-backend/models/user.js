@@ -14,7 +14,6 @@ class User {
   async registerStudent({
     username,
     password,
-    user_type,
     name,
     birthday,
     gender,
@@ -86,8 +85,8 @@ class User {
     ]);
   }
 
-  viewUsers = async (user_type = null) => {
-    const row = await db.query("CALL select_user(?)", [user_type]);
+  viewUsers = async ({ user_type = null, name = null }) => {
+    const row = await db.query("CALL select_user(?,?)", [user_type, name]);
     return this.rowToArray(row);
   };
 

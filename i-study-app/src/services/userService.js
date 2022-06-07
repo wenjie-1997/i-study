@@ -12,7 +12,8 @@ export const verifyToken = async () =>
 
 export const getUserInfo = async () => await http.get(`${endpoint}/`);
 
-export const getUserList = async () => await http.get(`${endpoint}/get_users`);
+export const getUserList = async (payload) =>
+  await http.get(`${endpoint}/get_users`, { params: payload });
 
 export const registerStudent = async ({
   username,

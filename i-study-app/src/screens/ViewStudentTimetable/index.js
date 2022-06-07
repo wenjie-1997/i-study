@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { getStudentTimetable } from "../../thunks/student";
@@ -17,8 +17,12 @@ const ViewStudentTimetable = () => {
   const studentModal = useSelector((state) => state.student);
 
   const timetable = studentSelectors.getTimetable(studentModal);
+  const [className, setClassName] = useState("");
 
-  useEffect(() => dispatch(getStudentTimetable()), [dispatch]);
+  useEffect(() => {
+    dispatch(getStudentTimetable());
+    setClassName(localStorage.getItem("className"));
+  }, [dispatch]);
 
   let displayedTimetable = Array(5).fill([]);
   displayedTimetable = displayedTimetable.map((slots, index) => {
@@ -46,9 +50,15 @@ const ViewStudentTimetable = () => {
         <td
           key={rowIndex + index}
           colSpan={timetableSlotSelectors.getNoOfSlots(slot)}
-          className="text-center align-middle "
+          className="text-center align-middle"
+          style={{ position: "relative" }}
         >
           <b>{subjectSelectors.getSubjectCode(slot)}</b>
+          <i
+            style={{ position: "absolute", right: 0, bottom: 0, margin: "0px" }}
+          >
+            {subjectSelectors.getTeacherName(slot)}
+          </i>
         </td>
       ) : (
         <td key={rowIndex + index}></td>
@@ -59,37 +69,74 @@ const ViewStudentTimetable = () => {
     timetable.map((days, index) => ({ day: DAYS[index], slots: days }));
 
   return (
-    <div className="mx-auto my-4 w-75">
-      <div className="d-flex flex-row justify-content-between">
-        <h3>View Class Timetable</h3>
+    <>
+      <div class="pagetitle">
+        <h1>Timetable for Class {className}</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Timetable</li>
+          </ol>
+        </nav>
       </div>
-      <Table bordered>
-        <tbody>
-          <tr>
-            <td></td>
-            <td width="7.7%">1</td>
-            <td width="7.7%">2</td>
-            <td width="7.7%">3</td>
-            <td width="7.7%">4</td>
-            <td width="7.7%">5</td>
-            <td width="7.7%">6</td>
-            <td width="7.7%">7</td>
-            <td width="7.7%">8</td>
-            <td width="7.7%">9</td>
-            <td width="7.7%">10</td>
-            <td width="7.7%">11</td>
-            <td width="7.7%">12</td>
-          </tr>
-          {displayedTimetable.length !== 0 &&
-            daysToRows(displayedTimetable).map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                <td height="100px">{row.day}</td>
-                {slotToTd(displayedTimetable[rowIndex], rowIndex)}
-              </tr>
-            ))}
-        </tbody>
-      </Table>
-    </div>
+
+      <div className="card px-2 py-1">
+        <Table bordered>
+          <tbody>
+            <tr>
+              <td></td>
+              <td width="7.7%" className="text-center">
+                1
+              </td>
+              <td width="7.7%" className="text-center">
+                2
+              </td>
+              <td width="7.7%" className="text-center">
+                3
+              </td>
+              <td width="7.7%" className="text-center">
+                4
+              </td>
+              <td width="7.7%" className="text-center">
+                5
+              </td>
+              <td width="7.7%" className="text-center">
+                6
+              </td>
+              <td width="7.7%" className="text-center">
+                7
+              </td>
+              <td width="7.7%" className="text-center">
+                8
+              </td>
+              <td width="7.7%" className="text-center">
+                9
+              </td>
+              <td width="7.7%" className="text-center">
+                10
+              </td>
+              <td width="7.7%" className="text-center">
+                11
+              </td>
+              <td width="7.7%" className="text-center">
+                12
+              </td>
+            </tr>
+            {displayedTimetable.length !== 0 &&
+              daysToRows(displayedTimetable).map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  <td
+                    height="100px"
+                    className="d-flex align-items-center justify-content-center"
+                  >
+                    {row.day}
+                  </td>
+                  {slotToTd(displayedTimetable[rowIndex], rowIndex)}
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </div>
+    </>
   );
 };
 
