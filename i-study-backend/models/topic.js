@@ -48,8 +48,14 @@ class Topic {
     await db.query("CALL delete_material(?)", [materialId]);
   };
 
-  insertForum = async ({ title, description, topicId }) =>
-    await db.query("CALL insert_forum(?,?,?)", [title, description, topicId]);
+  insertForum = async ({ title, description, topicId }) => {
+    const row = await db.query("CALL insert_forum(?,?,?)", [
+      title,
+      description,
+      topicId,
+    ]);
+    return this.rowToArray(row);
+  };
 
   updateForum = async ({ title, description, forumId }) =>
     await db.query("CALL update_forum(?,?,?)", [title, description, forumId]);
@@ -58,13 +64,15 @@ class Topic {
     await db.query("CALL delete_forum(?)", [forumId]);
   };
 
-  insertSubmission = async ({ title, description, dueDate, topicId }) =>
-    await db.query("CALL insert_submission(?,?,?,?)", [
+  insertSubmission = async ({ title, description, dueDate, topicId }) => {
+    const row = await db.query("CALL insert_submission(?,?,?,?)", [
       title,
       description,
       dueDate,
       topicId,
     ]);
+    return this.rowToArray(row);
+  };
 
   updateSubmission = async ({ title, description, dueDate, submissionId }) =>
     await db.query("CALL update_submission(?,?,?,?)", [

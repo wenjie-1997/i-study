@@ -7,8 +7,6 @@ import {
   GET_STUDENT_TIMETABLE_SUCCESS,
 } from "../reducers/student";
 import * as studentService from "../services/studentService";
-import * as selectors from "../selectors";
-import * as authSelectors from "../selectors/auth";
 
 export const getStudentSubjectList = () => async (dispatch, getState) => {
   dispatch(GET_STUDENT_SUBJECT_LIST_REQUEST());
@@ -36,7 +34,6 @@ export const getStudentTimetable = () => async (dispatch, getState) => {
       studentId,
     });
     if (status === 200) {
-      console.log(data);
       dispatch(GET_STUDENT_TIMETABLE_SUCCESS(data));
     } else {
       dispatch(GET_STUDENT_TIMETABLE_FAILED());

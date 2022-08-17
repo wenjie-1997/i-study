@@ -49,3 +49,8 @@ export const getTeacherSubjectList = async ({ teacherId }) =>
   await http.get(`${endpoint}/subject`, {
     params: { teacherId },
   });
+
+export const getReportSummary = async ({ teacherId }) =>
+  await http.get(`${endpoint}/report`, {
+    params: { teacherId },
+  });

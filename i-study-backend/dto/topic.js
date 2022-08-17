@@ -9,7 +9,7 @@ module.exports = {
     ...(topic_id && { topicId: topic_id }),
     ...(name && { name }),
     ...(arrangement && { arrangement }),
-    ...(class_subject_id && { classSubjectid: class_subject_id }),
+    ...(class_subject_id && { classSubjectId: class_subject_id }),
     ...(topicComponentList && { topicComponentList }),
   }),
 };

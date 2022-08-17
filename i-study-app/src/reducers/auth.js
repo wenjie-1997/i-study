@@ -10,10 +10,12 @@ const slice = createSlice({
     teacherId: 0,
     studentId: 0,
     isLoginFailed: false,
+    isLoading: false,
   },
   reducers: {
     LOGIN_REQUEST: (state, action) => {
       state.failedLogin = false;
+      state.isLoading = true;
     },
     LOGIN_SUCCESS: (state, action) => {
       const { name, username, userId, userType, teacherId, studentId } =
@@ -24,9 +26,11 @@ const slice = createSlice({
       state.userType = userType;
       if (teacherId) state.teacherId = teacherId;
       if (studentId) state.studentId = studentId;
+      state.isLoading = false;
     },
     LOGIN_FAILED: (state, action) => {
       state.isLoginFailed = true;
+      state.isLoading = false;
     },
     LOGOUT_SUCCESS: (state, action) => {
       state.userId = null;
@@ -39,7 +43,9 @@ const slice = createSlice({
     CLOSE_ALERT: (state) => {
       state.isLoginFailed = false;
     },
-    VERIFY_TOKEN_REQUEST: () => {},
+    VERIFY_TOKEN_REQUEST: (state) => {
+      state.isLoading = true;
+    },
     VERIFY_TOKEN_SUCCESS: (state, action) => {
       const { name, userId, userType, teacherId, studentId } = action.payload;
       state.userId = userId;
@@ -47,8 +53,11 @@ const slice = createSlice({
       state.userType = userType;
       if (teacherId) state.teacherId = teacherId;
       if (studentId) state.studentId = studentId;
+      state.isLoading = false;
     },
-    VERIFY_TOKEN_FAILED: () => {},
+    VERIFY_TOKEN_FAILED: (state) => {
+      state.isLoading = false;
+    },
   },
 });
 

@@ -64,6 +64,11 @@ class Teacher {
     return this.rowToArray(row);
   };
 
+  getReportSummary = async ({ teacherId }) => {
+    const row = await db.query("CALL select_report_summary(?)", [teacherId]);
+    return this.rowToArray(row);
+  };
+
   rowToArray(sqlRows) {
     if (!sqlRows) return null;
     return JSON.parse(JSON.stringify(sqlRows[0]));

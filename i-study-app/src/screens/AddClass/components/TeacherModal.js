@@ -27,6 +27,12 @@ const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
   };
 
   useEffect(() => {
+    if (showModal) {
+      setSelectedTeacher(null);
+    }
+  }, [showModal]);
+
+  useEffect(() => {
     if (timeoutId) clearTimeout(timeoutId);
     setTimeoutId(
       setTimeout(() => {
@@ -73,6 +79,7 @@ const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
                   userSelectors.getTeacherId(selectedTeacher) && "light"
               }
               onClick={() => onSelectTeacher(t)}
+              className="my-2"
             >
               <Card.Body className="py-3">{userSelectors.getName(t)}</Card.Body>
             </Card>

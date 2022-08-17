@@ -6,7 +6,7 @@ const SubjectCard = ({ subjectName, taughtBy, className, onClick, index }) => {
     <div className={`col-12 col-sm-6`} onClick={onClick}>
       <Card className="card">
         <div className="card-body">
-          <h5 class="card-title">{subjectName}</h5>
+          <h5 className="card-title">{subjectName}</h5>
           <p style={{ textAlign: "end", margin: 0 }}>{taughtBy || className}</p>
         </div>
       </Card>

@@ -4,15 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { getHomeworkList } from "../../thunks/submission";
 import Table from "react-bootstrap/Table";
 
-import CommonDiv from "../common/CommonDiv";
 import ComponentCard from "../common/ComponentCard";
 import * as submissionSelectors from "../../selectors/submission";
 import * as topicComponentSelectors from "../../selectors/topicComponent";
 import * as subjectSelectors from "../../selectors/subject";
-import {
-  getDateTimeLocalString,
-  getformattedDateTime,
-} from "../../utilities/helper";
+import { getformattedDateTime } from "../../utilities/helper";
 
 const ViewStudentHomework = () => {
   const dispatch = useDispatch();
@@ -24,11 +20,11 @@ const ViewStudentHomework = () => {
   const homeworkList = submissionSelectors.getHomeworkList(submissionModal);
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>Homework List</h1>
         <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Homework</li>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">Homework</li>
           </ol>
         </nav>
       </div>

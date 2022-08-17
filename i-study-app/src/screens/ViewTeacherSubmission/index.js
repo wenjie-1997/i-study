@@ -61,19 +61,19 @@ const ViewTeacherSubmission = () => {
 
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>Submission Page</h1>
         <nav>
-          <ol class="breadcrumb">
+          <ol className="breadcrumb">
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() => navigate("/dashboard")}
             >
               Home
             </li>
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() =>
                 navigate(
@@ -84,7 +84,7 @@ const ViewTeacherSubmission = () => {
             >
               {subjectSelectors.getSubjectName(subject)}
             </li>
-            <li class="breadcrumb-item active">{title}</li>
+            <li className="breadcrumb-item active">{title}</li>
           </ol>
         </nav>
       </div>
@@ -155,7 +155,7 @@ const ViewTeacherSubmission = () => {
                   userSelectors
                     .getName(submission)
                     .toLowerCase()
-                    .includes(searchText)
+                    .includes(searchText.toLowerCase())
                 )
                 .map((studentSubmission) => (
                   <tr
@@ -194,7 +194,9 @@ const ViewTeacherSubmission = () => {
                         studentSubmission
                       ) ? (
                         <a
-                          href={`http://localhost:8000/submission/download?url=${submissionSelectors.getUrl(
+                          href={`${
+                            process.env.REACT_APP_BACKEND_URL
+                          }/submission/download?url=${submissionSelectors.getUrl(
                             studentSubmission
                           )}&fileName=${submissionSelectors.getFileName(
                             studentSubmission

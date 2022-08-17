@@ -30,6 +30,7 @@ const StudentModal = ({ showModal, onCloseModal, onAddStudent }) => {
     if (showModal) {
       dispatch(searchStudentByName({ searchText: "" }));
       setSearchText("");
+      setSelectedStudent(null);
     }
   }, [showModal, dispatch]);
 
@@ -56,7 +57,7 @@ const StudentModal = ({ showModal, onCloseModal, onAddStudent }) => {
   const onSelectStudent = (student) => setSelectedStudent(student);
   return (
     <Modal show={showModal} scrollable dialogClassName="h-100">
-      <Modal.Header>Add New Student</Modal.Header>
+      <Modal.Header>Add Class Student</Modal.Header>
       <Modal.Body>
         <CommonFormGroup className="mb-3">
           <InputGroup>

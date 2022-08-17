@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import {
+  getCurrentLocalISOFullString,
   getCurrentLocalISOString,
   getDateDifferenceFromNow,
   getformattedDateTime,
@@ -49,27 +50,6 @@ const ViewStudentSubmission = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const nowTime = new Date().getTime();
-    const dueDateTime = new Date(dueDate.replace("Z", "")).getTime();
-    let second = Math.round((dueDateTime - nowTime) / 1000);
-    let minute = 0;
-    let hour = 0;
-    let day = 0;
-    if (second >= 60) {
-      minute = Math.floor(second / 60);
-      second = second % 60;
-      if (minute >= 60) {
-        hour = Math.floor(minute / 60);
-        minute = minute % 60;
-        if (hour >= 24) {
-          day = Math.floor(hour / 24);
-          hour = hour % 24;
-        }
-      }
-    }
-  }, [dueDate]);
-
   const onAddSubmission = ({ file }) => {
     dispatch(
       isEditing
@@ -78,7 +58,7 @@ const ViewStudentSubmission = () => {
               submissionSelectors.getStudentSubmissionId(selectedSubmission),
             url: submissionSelectors.getUrl(selectedSubmission),
             file,
-            submissionDate: getCurrentLocalISOString(),
+            submissionDate: getCurrentLocalISOFullString(),
             submissionId: params.submission_id,
             closeSubmissionModal: () => {
               setIsEditing(false);
@@ -87,7 +67,7 @@ const ViewStudentSubmission = () => {
           })
         : addSubmission({
             file,
-            submissionDate: getCurrentLocalISOString(),
+            submissionDate: getCurrentLocalISOFullString(),
             submissionId: params.submission_id,
             closeSubmissionModal: () => setShowSubmissionModal(false),
           })
@@ -107,19 +87,19 @@ const ViewStudentSubmission = () => {
 
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>Submission Page</h1>
         <nav>
-          <ol class="breadcrumb">
+          <ol className="breadcrumb">
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() => navigate("/dashboard")}
             >
               Home
             </li>
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() =>
                 navigate(
@@ -130,7 +110,7 @@ const ViewStudentSubmission = () => {
             >
               {subjectSelectors.getSubjectName(subject)}
             </li>
-            <li class="breadcrumb-item active">{title}</li>
+            <li className="breadcrumb-item active">{title}</li>
           </ol>
         </nav>
       </div>
@@ -189,7 +169,9 @@ const ViewStudentSubmission = () => {
           <Col xs sm={9}>
             {submissionSelectors.getStudentSubmissionId(selectedSubmission) ? (
               <a
-                href={`http://localhost:8000/submission/download?url=${submissionSelectors.getUrl(
+                href={`${
+                  process.env.REACT_APP_BACKEND_URL
+                }/submission/download?url=${submissionSelectors.getUrl(
                   selectedSubmission
                 )}&fileName=${submissionSelectors.getFileName(
                   selectedSubmission

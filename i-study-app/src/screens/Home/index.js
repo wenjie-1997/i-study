@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ComponentCard from "../common/ComponentCard";
-import CommonDiv from "../common/CommonDiv";
 import SubjectCard from "./components/SubjectCard";
 import { useDispatch, useSelector } from "react-redux";
-import * as authSelectors from "../../selectors/auth";
 import * as studentSelectors from "../../selectors/student";
 import * as teacherSelectors from "../../selectors/teacher";
 import * as subjectSelectors from "../../selectors/subject";
@@ -16,7 +13,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const auth = useSelector((state) => state.auth);
   const studentModal = useSelector((state) => state.student);
   const teacherModal = useSelector((state) => state.teacher);
   const [userType, setUserType] = useState(0);
@@ -46,11 +42,11 @@ const Home = () => {
   };
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>Welcome, {name}</h1>
         <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Home</li>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">Home</li>
           </ol>
         </nav>
       </div>

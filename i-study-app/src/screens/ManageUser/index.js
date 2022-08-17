@@ -10,7 +10,7 @@ import { deleteUser, getUserList, updateUserProfile } from "../../thunks/user";
 import * as userSelectors from "../../selectors/user";
 import { USER_TYPE_NAME, USER_TYPE_NUMBER } from "../../utilities/constants";
 import Button from "react-bootstrap/esm/Button";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EditModal from "./components/EditModal";
 import CommonFormGroup from "../common/CommonFormGroup";
 import { IoAddCircleOutline } from "react-icons/io5";
@@ -33,11 +33,8 @@ const ManageUser = () => {
   const [timeoutId, setTimeoutId] = useState(0);
 
   useEffect(() => {
-    setMaxPage(0);
-    setCurrentPage(0);
-    setUserType("");
     dispatch(getUserList());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     setShowModal(false);

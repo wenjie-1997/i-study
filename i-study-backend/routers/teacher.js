@@ -7,5 +7,6 @@ router.put("/", TeacherController.put);
 router.get("/search_by_name", TeacherController.searchByName);
 router.get("/subject", TeacherController.getSubjectByTeacherId);
 router.get("/timetable", TeacherController.getTimetableByTeacherId);
+router.get("/report", TeacherController.getReportSummary);
 
 module.exports = router;

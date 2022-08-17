@@ -23,7 +23,9 @@ class UserController {
       await User.registerTeacher(req.body);
       res.status(201).send("Registered successfully");
     } catch (error) {
-      console.log(error);
+      if (error.errno === 1062) {
+        res.status(409).send("Duplicate Entry");
+      }
       next(error);
     }
   };
@@ -66,7 +68,6 @@ class UserController {
           ...teacherDto.teacherToDto(element),
         };
       });
-      console.log(result);
       res.json(result);
     } catch (error) {
       console.log(error);

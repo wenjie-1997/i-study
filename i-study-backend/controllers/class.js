@@ -10,7 +10,6 @@ class ClassController {
   getClassList = async (req, res, next) => {
     try {
       const result = await Class.get(req.query);
-      console.log(result);
       res.json(
         result.length > 0
           ? result.map((classModel) => classDto.classToDto(classModel))
@@ -131,7 +130,6 @@ class ClassController {
     try {
       const { timetableSlots } = req.body;
       const existingTimeTable = await Class.getClassTimetable(req.query);
-
       //Insert new slot
       for (let i = 0; i < timetableSlots.length; i++) {
         const slot = timetableSlots[i];
@@ -149,7 +147,10 @@ class ClassController {
                 day: slot.day,
                 slotNo: j,
               });
-            if (unavailableTimetableslot.length > 0) {
+            if (
+              unavailableTimetableslot.length > 0 &&
+              unavailableTimetableslot[0]?.class_id !== slot.class_id
+            ) {
               isAvailable = false;
               unavailableSlotList.push(Object.assign({}, slot));
               crashedSlotList.push(
@@ -172,7 +173,6 @@ class ClassController {
           );
         }
       }
-      console.log({ unavailableSlotList, crashedSlotList });
       //Remove old slots
       existingTimeTable.forEach(
         async (slot) =>

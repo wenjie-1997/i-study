@@ -25,6 +25,7 @@ export const login = (payload) => async (dispatch, getState) => {
       if (data.userType === USER_TYPE_NUMBER.STUDENT) {
         localStorage.setItem("studentId", data.studentId);
         localStorage.setItem("className", data.className);
+        localStorage.setItem("classId", data?.classId);
       }
       if (data.userType === USER_TYPE_NUMBER.TEACHER)
         localStorage.setItem("teacherId", data.teacherId);

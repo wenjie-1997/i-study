@@ -7,6 +7,7 @@ import teacherReducer from "./teacher";
 import topicReducer from "./topic";
 import submissionReducer from "./submission";
 import forumReducer from "./forum";
+import notificationReducer from "./notification";
 import { combineReducers } from "@reduxjs/toolkit";
 
 export default combineReducers({
@@ -19,4 +20,5 @@ export default combineReducers({
   teacher: teacherReducer,
   submission: submissionReducer,
   forum: forumReducer,
+  notification: notificationReducer,
 });

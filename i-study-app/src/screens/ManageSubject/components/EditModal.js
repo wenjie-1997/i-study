@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import FormGroup from "react-bootstrap/FormGroup";
 import * as subjectSelectors from "../../../selectors/subject";
 import { useDispatch } from "react-redux";

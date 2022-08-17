@@ -24,7 +24,7 @@ const ViewClassSubject = () => {
     const classObj = JSON.parse(localStorage.getItem("class"));
     setClassName(classSelectors.getName(classObj));
     dispatch(getClassSubjectList({ classId: params.class_id }));
-  }, [dispatch, params]);
+  }, []);
   useEffect(() => setShowAddSubjectModal(false), [classSubjectList]);
 
   const onClickDelete = (name, classSubjectId) => {

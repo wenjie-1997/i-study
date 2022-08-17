@@ -1,15 +1,22 @@
 import axios from "axios";
 import { logout } from "../thunks/auth";
 import store from "../store";
+import decode from "jwt-decode";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: process.env.REACT_APP_BACKEND_URL,
   timeout: 10000,
 });
 
 instance.interceptors.request.use(
   function (config) {
     const token = localStorage.getItem("accessToken");
+    if (token) {
+      let now = new Date();
+      if (now.getTime() >= decode(token).exp * 1000) {
+        store.dispatch(logout());
+      }
+    }
     config.headers["Authorization"] = token ? `Bearer ${token}` : "";
     return config;
   },

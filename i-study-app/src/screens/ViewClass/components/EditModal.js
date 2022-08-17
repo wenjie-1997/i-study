@@ -16,17 +16,20 @@ const EditModal = ({
   onSubmitEdit,
   selectedClass,
 }) => {
-  useEffect(() => {
-    setName(classSelectors.getName(selectedClass));
-    setForm(classSelectors.getForm(selectedClass));
-  }, [selectedClass]);
-
   const [name, setName] = useState("");
   const [form, setForm] = useState("");
   const [teacherName, setTeacherName] = useState("");
   const [teacherId, setTeacherId] = useState(0);
-
   const [showTeacherModal, setShowTeacherModal] = useState(false);
+
+  useEffect(() => {
+    if (showModal) {
+      setName(classSelectors.getName(selectedClass));
+      setForm(classSelectors.getForm(selectedClass));
+      setTeacherName(classSelectors.getClassTeacherName(selectedClass));
+      setTeacherId(classSelectors.getClassTeacherId(selectedClass));
+    }
+  }, [showModal]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -105,6 +108,7 @@ const EditModal = ({
         showModal={showTeacherModal}
         onCloseModal={() => setShowTeacherModal(false)}
         onConfirmClassTeacher={onConfirmClassTeacher}
+        currentTeacher={{ teacherName, teacherId }}
       />
     </>
   );

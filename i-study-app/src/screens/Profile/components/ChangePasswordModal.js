@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import CommonFormGroup from "../../common/CommonFormGroup";
 import { useDispatch } from "react-redux";
 import { changePassword } from "../../../thunks/user";
@@ -15,6 +17,38 @@ const ChangePasswordModal = ({ showModal, onCloseModal }) => {
   const [isOldPasswordInvalid, setIsOldPasswordInvalid] = useState(false);
   const [isReenterPasswordInvalid, setIsReenterPasswordInvalid] =
     useState(false);
+
+  const renderTooltip = (
+    <Popover id="popover-basic">
+      <Popover.Body>
+        Password criteria:
+        <ul>
+          <li>Length is between 8 to 16 words</li>
+          <li>Must contain alphanumeric character</li>
+          <li>Must contain at least one upper case alphabet character</li>
+          <li>
+            Must contain at least one special symbol character (!@#$%^&*+-_)
+          </li>
+        </ul>
+      </Popover.Body>
+    </Popover>
+  );
+
+  const verifyPassword = (password) => {
+    if (password.length < 8 || password.length > 16) {
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      return false;
+    }
+    if (!/[0-9]/.test(password)) {
+      return false;
+    }
+    if (!/[!@#$%^&*+\-_]/.test(password)) {
+      return false;
+    }
+    return true;
+  };
 
   useEffect(() => {
     if (!showModal) {
@@ -31,14 +65,15 @@ const ChangePasswordModal = ({ showModal, onCloseModal }) => {
     if (reenterPassword !== newPassword) {
       setIsReenterPasswordInvalid(true);
     } else {
-      dispatch(
-        changePassword({
-          oldPassword,
-          newPassword,
-          onCloseModal,
-          setIsOldPasswordInvalid,
-        })
-      );
+      if (verifyPassword(newPassword))
+        dispatch(
+          changePassword({
+            oldPassword,
+            newPassword,
+            onCloseModal,
+            setIsOldPasswordInvalid,
+          })
+        );
     }
   };
   return (
@@ -59,11 +94,28 @@ const ChangePasswordModal = ({ showModal, onCloseModal }) => {
             </Form.Control.Feedback>
           </CommonFormGroup>
           <CommonFormGroup>
-            <Form.Label>New Password</Form.Label>
+            <Form.Label>
+              New Password
+              <OverlayTrigger
+                placement="right"
+                delay={{ show: 250, hide: 400 }}
+                overlay={renderTooltip}
+              >
+                <i
+                  className="bi bi-exclamation-circle"
+                  style={{ color: "red" }}
+                ></i>
+              </OverlayTrigger>
+            </Form.Label>
             <Form.Control
               type="password"
+              value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              isInvalid={newPassword !== "" && !verifyPassword(newPassword)}
             />
+            <Form.Control.Feedback type="invalid">
+              Password does not satisfy criteria
+            </Form.Control.Feedback>
           </CommonFormGroup>
           <CommonFormGroup>
             <Form.Label>Re-enter New Password</Form.Label>

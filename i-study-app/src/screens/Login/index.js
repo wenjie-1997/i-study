@@ -1,13 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../thunks/auth";
 import { CLOSE_ALERT } from "../../reducers/auth";
 import * as authSelectors from "../../selectors/auth";
-import CommonFormGroup from "../common/CommonFormGroup";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -92,40 +89,6 @@ const Login = () => {
         </div>
       </section>
     </div>
-    // <div className="container">
-    //   <div className="row justify-content-center p-3 my-5">
-    //     <Card className="col-xs-sm-10 col-md-8 ">
-    //       <Card.Body>
-    //         <h1>Login</h1>
-    //         <Form onSubmit={onSubmit}>
-    //           <CommonFormGroup className="mb-3" controlId="formUsername">
-    //             <Form.Label>Username</Form.Label>
-    //             <Form.Control
-    //               placeholder="Enter username"
-    //               onChange={(e) => setUsername(e.target.value)}
-    //               value={username}
-    //               required
-    //             />
-    //           </CommonFormGroup>
-    //           <CommonFormGroup className="mb-3" controlId="formPassword">
-    //             <Form.Label>Password</Form.Label>
-    //             <Form.Control
-    //               type="password"
-    //               placeholder="Enter password"
-    //               onChange={(e) => setPassword(e.target.value)}
-    //               value={password}
-    //               required
-    //             />
-    //           </CommonFormGroup>
-    //           <Alert show={isLoginFailed} variant="danger" className="py-2">
-    //             Invalid Username or Password
-    //           </Alert>
-    //           <Button type="submit">Submit</Button>
-    //         </Form>
-    //       </Card.Body>
-    //     </Card>
-    //   </div>
-    // </div>
   );
 };
 

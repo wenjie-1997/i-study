@@ -1,17 +1,12 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { useSelector } from "react-redux";
-import * as userSelectors from "../../selectors/user";
 import * as authSelectors from "../../selectors/auth";
 
 const IndexNavBar = () => {
   const navigate = useNavigate();
 
-  const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
 
   const userId = authSelectors.getUserId(auth);

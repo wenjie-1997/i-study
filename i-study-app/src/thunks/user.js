@@ -22,12 +22,10 @@ import * as userService from "../services/userService";
 import * as studentService from "../services/studentService";
 import * as teacherService from "../services/teacherService";
 import * as userSelectors from "../selectors/user";
-import * as authSelectors from "../selectors/auth";
-import * as selectors from "../selectors";
 import { USER_TYPE_NUMBER } from "../utilities/constants";
 import history from "../utilities/history";
 
-export const getUserProfile = () => async (dispatch, getState) => {
+export const getUserProfile = () => async (dispatch) => {
   dispatch(GET_USER_PROFILE_REQUEST());
   try {
     const { data, status } = await userService.getUserInfo();
@@ -39,7 +37,7 @@ export const getUserProfile = () => async (dispatch, getState) => {
   }
 };
 
-export const getUserList = (payload) => async (dispatch, getState) => {
+export const getUserList = (payload) => async (dispatch) => {
   dispatch(GET_USER_LIST_REQUEST());
   try {
     const { data, status } = await userService.getUserList(payload);
@@ -59,12 +57,12 @@ export const getUserList = (payload) => async (dispatch, getState) => {
   }
 };
 
-export const register = (payload) => async (dispatch, getState) => {
+export const register = (payload) => async (dispatch) => {
   dispatch(REGISTER_USER_REQUEST());
+  const { userType, usernameIsDuplicated } = payload;
   try {
-    const { userType } = payload;
     if (userType === USER_TYPE_NUMBER.TEACHER) {
-      const { data, status } = await userService.registerTeacher(payload);
+      const { status } = await userService.registerTeacher(payload);
 
       if (status === 201) {
         dispatch(
@@ -76,19 +74,13 @@ export const register = (payload) => async (dispatch, getState) => {
           })
         );
         history.back();
-      } else
-        dispatch(
-          REGISTER_USER_FAILED({
-            toast: {
-              bg: "danger",
-              message: "Duplicate username, please change the username.",
-            },
-          })
-        );
+      } else if (status === 409) {
+        usernameIsDuplicated();
+        dispatch(REGISTER_USER_FAILED());
+      }
     }
     if (userType === USER_TYPE_NUMBER.STUDENT) {
-      console.log(payload);
-      const { data, status } = await userService.registerStudent(payload);
+      const { status } = await userService.registerStudent(payload);
 
       if (status === 201) {
         dispatch(
@@ -100,17 +92,14 @@ export const register = (payload) => async (dispatch, getState) => {
           })
         );
         history.back();
-      } else
-        dispatch(
-          REGISTER_USER_FAILED({
-            toast: {
-              bg: "success",
-              message: "Duplicate username, please change the username.",
-            },
-          })
-        );
+      } else if (status === 409) {
+        usernameIsDuplicated();
+        dispatch(REGISTER_USER_FAILED());
+      }
     }
   } catch (error) {
+    if (JSON.parse(JSON.stringify(error)).status === 409)
+      usernameIsDuplicated();
     dispatch(
       REGISTER_USER_FAILED({
         toast: {
@@ -122,8 +111,7 @@ export const register = (payload) => async (dispatch, getState) => {
   }
 };
 
-export const updateUserProfile = (payload) => async (dispatch, getState) => {
-  const state = getState();
+export const updateUserProfile = (payload) => async (dispatch) => {
   let userType = parseInt(localStorage.getItem("userType"));
   let studentId = 0;
   let teacherId = 0;
@@ -152,7 +140,7 @@ export const updateUserProfile = (payload) => async (dispatch, getState) => {
       } else dispatch(UPDATE_USER_PROFILE_FAILED());
     }
     if (userType === USER_TYPE_NUMBER.STUDENT) {
-      const { data, status } = await studentService.updateStudentProfile({
+      const { status } = await studentService.updateStudentProfile({
         studentId,
         ...payload,
       });
@@ -174,7 +162,7 @@ export const deleteUser = (data) => async (dispatch, getState) => {
   const { userId } = data;
   dispatch(DELETE_USER_REQUEST());
   try {
-    const { data, status } = await userService.deleteUser({ userId });
+    const { status } = await userService.deleteUser({ userId });
     if (status === 200) {
       dispatch(DELETE_USER_SUCCESS());
       dispatch(getUserList());

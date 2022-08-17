@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getClassTimetable } from "../../thunks/class";
 import * as classSelectors from "../../selectors/class";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { DAYS } from "../../utilities/constants";
 import FailedResponseModal from "./components/FailedResponseModal";
 import { BsFillPencilFill } from "react-icons/bs";
+import { CLOSE_FAILED_RESPONSE_MODAL } from "../../reducers/class";
 
 const ViewClassTimetable = () => {
   const dispatch = useDispatch();
@@ -121,7 +121,10 @@ const ViewClassTimetable = () => {
       </Card>
       <FailedResponseModal
         showModal={showFailedRequestModal}
-        onCloseModal={() => setShowFailedRequestModal(false)}
+        onCloseModal={() => {
+          setShowFailedRequestModal(false);
+          dispatch(CLOSE_FAILED_RESPONSE_MODAL());
+        }}
       />
     </>
   );

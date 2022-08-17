@@ -13,7 +13,12 @@ import * as userSelectors from "../../../selectors/user";
 import { IoSearch } from "react-icons/io5";
 import CommonFormGroup from "../../common/CommonFormGroup";
 
-const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
+const TeacherModal = ({
+  showModal,
+  onCloseModal,
+  onConfirmClassTeacher,
+  currentTeacher,
+}) => {
   const [searchText, setSearchText] = useState("");
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [timeoutId, setTimeoutId] = useState(0);
@@ -25,6 +30,10 @@ const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
   const onChangeText = (e) => {
     setSearchText(e.target.value);
   };
+
+  useEffect(() => {
+    setSelectedTeacher(currentTeacher);
+  }, [currentTeacher]);
 
   useEffect(() => {
     if (timeoutId) clearTimeout(timeoutId);
@@ -73,8 +82,9 @@ const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
                   userSelectors.getTeacherId(selectedTeacher) && "light"
               }
               onClick={() => onSelectTeacher(t)}
+              className="my-2"
             >
-              <Card.Body>{userSelectors.getName(t)}</Card.Body>
+              <Card.Body className="py-3">{userSelectors.getName(t)}</Card.Body>
             </Card>
           ))}
         </div>

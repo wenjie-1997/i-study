@@ -55,7 +55,15 @@ const ViewStudentTimetable = () => {
         >
           <b>{subjectSelectors.getSubjectCode(slot)}</b>
           <i
-            style={{ position: "absolute", right: 0, bottom: 0, margin: "0px" }}
+            style={{
+              position: "absolute",
+              right: 0,
+              bottom: 5,
+              margin: "0px",
+              textAlign: "right",
+              lineHeight: 0.8,
+              fontSize: 14,
+            }}
           >
             {subjectSelectors.getTeacherName(slot)}
           </i>
@@ -70,11 +78,11 @@ const ViewStudentTimetable = () => {
 
   return (
     <>
-      <div class="pagetitle">
-        <h1>Timetable for Class {className}</h1>
+      <div className="pagetitle">
+        <h1>Timetable{className !== null && ` for Class ${className}`}</h1>
         <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Timetable</li>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">Timetable</li>
           </ol>
         </nav>
       </div>

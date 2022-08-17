@@ -76,6 +76,7 @@ const TeacherModal = ({ showModal, onCloseModal, onConfirmClassTeacher }) => {
                   userSelectors.getTeacherId(selectedTeacher) && "light"
               }
               onClick={() => onSelectTeacher(t)}
+              className="my-2"
             >
               <Card.Body className="py-3">{userSelectors.getName(t)}</Card.Body>
             </Card>

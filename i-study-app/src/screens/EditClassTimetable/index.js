@@ -102,6 +102,7 @@ const EditClassTimetable = () => {
       starting_slot: selectedStartingSlot,
       no_of_slots: selectedNoOfSlot,
       day: rowIndex + 1,
+      class_id: parseInt(params.class_id),
     });
     setEditingTimetableSlots(editingTimetableSlotsCopy);
     setIsAddingSubject(false);

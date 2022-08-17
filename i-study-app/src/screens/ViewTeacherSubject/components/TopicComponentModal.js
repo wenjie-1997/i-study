@@ -196,6 +196,7 @@ const TopicComponentModal = ({
               <CommonFormGroup>
                 <Form.Label>Description</Form.Label>
                 <Form.Control
+                  as="textarea"
                   onChange={(e) => setDescription(e.target.value)}
                   value={description}
                   required

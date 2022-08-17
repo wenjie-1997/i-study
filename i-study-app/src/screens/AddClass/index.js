@@ -1,13 +1,12 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as userSelectors from "../../selectors/user";
 import { addClass } from "../../thunks/class";
 import TeacherModal from "./components/TeacherModal";
-import CommonDiv from "../common/CommonDiv";
 import CommonFormGroup from "../common/CommonFormGroup";
 import { useNavigate } from "react-router-dom";
 
@@ -33,7 +32,6 @@ const AddClass = () => {
   };
   return (
     <>
-      {" "}
       <div className="pagetitle">
         <h1>Add Class</h1>
         <nav>
@@ -45,7 +43,7 @@ const AddClass = () => {
               Class
             </li>
 
-            <li class="breadcrumb-item active">Add Class</li>
+            <li className="breadcrumb-item active">Add Class</li>
           </ol>
         </nav>
       </div>
@@ -53,7 +51,7 @@ const AddClass = () => {
         <Form onSubmit={onSubmit}>
           <Card.Body className="pt-3 ">
             <div className="row g-3">
-              <CommonFormGroup class="col-md-6">
+              <CommonFormGroup className="col-md-6">
                 <Form.Label>Class Name</Form.Label>
                 <Form.Control
                   type="text"
@@ -62,7 +60,7 @@ const AddClass = () => {
                   required
                 />
               </CommonFormGroup>
-              <CommonFormGroup class="col-md-6">
+              <CommonFormGroup className="col-md-6">
                 <Form.Label>Form</Form.Label>
                 <Form.Select
                   value={form}
@@ -81,23 +79,15 @@ const AddClass = () => {
             </div>
             <CommonFormGroup>
               <Form.Label>Class Teacher</Form.Label>
-              {teacherId ? (
-                <InputGroup>
-                  <Form.Control type="text" value={teacherName} readOnly />
-                  <Button onClick={() => setShowTeacherModal(true)}>
-                    Change
-                  </Button>
-                </InputGroup>
-              ) : (
-                <Button
-                  onClick={() => setShowTeacherModal(true)}
-                  className="mx-2"
-                >
-                  Select
+
+              <InputGroup>
+                <Form.Control type="text" value={teacherName} readOnly />
+                <Button onClick={() => setShowTeacherModal(true)}>
+                  {teacherId === 0 ? "Select" : "Change"}
                 </Button>
-              )}
+              </InputGroup>
             </CommonFormGroup>
-            <Button type="submit" className="mt-2">
+            <Button type="submit" className="mt-2" disabled={teacherId === 0}>
               Submit
             </Button>
           </Card.Body>

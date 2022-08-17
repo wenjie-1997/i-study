@@ -10,6 +10,7 @@ import {
   updateTopicComponent,
 } from "../../thunks/topic";
 import * as subjectSelectors from "../../selectors/subject";
+import * as classSelectors from "../../selectors/class";
 import * as topicSelectors from "../../selectors/topic";
 import * as topicComponentSelectors from "../../selectors/topicComponent";
 import { useNavigate, useParams } from "react-router-dom";
@@ -39,7 +40,6 @@ const ViewTeacherSubject = () => {
   const onAddTopic = (newTopic) => {
     const { name } = newTopic;
     if (isEditingTopic) {
-      console.log(newTopic);
       dispatch(
         updateTopic({
           ...newTopic,
@@ -76,6 +76,7 @@ const ViewTeacherSubject = () => {
       addTopicComponent({
         topicId: topicSelectors.getTopicId(editingTopic),
         classSubjectId: params.class_subject_id,
+        classId: classSelectors.getClassId(subject),
         ...topicComponent,
         closeTopicComponentModal: () => setShowTopicComponentModal(false),
       })
@@ -118,18 +119,18 @@ const ViewTeacherSubject = () => {
 
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>{subjectSelectors.getSubjectName(subject)}</h1>
         <nav>
-          <ol class="breadcrumb">
+          <ol className="breadcrumb">
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() => navigate("/dashboard")}
             >
               Home
             </li>
-            <li class="breadcrumb-item active">
+            <li className="breadcrumb-item active">
               {subjectSelectors.getSubjectName(subject)}
             </li>
           </ol>
@@ -221,7 +222,9 @@ const ViewTeacherSubject = () => {
                       topicComponent
                     ) === 2 && (
                       <a
-                        href={`http://localhost:8000/topic/download?url=${topicComponentSelectors.getUrl(
+                        href={`${
+                          process.env.REACT_APP_BACKEND_URL
+                        }/topic/download?url=${topicComponentSelectors.getUrl(
                           topicComponent
                         )}&fileName=${topicComponentSelectors.getFileName(
                           topicComponent

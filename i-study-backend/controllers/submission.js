@@ -66,15 +66,6 @@ class SubmissionController {
       const submissionId = parseInt(req.body.submissionId);
       const studentId = parseInt(req.body.studentId);
       const submissionDate = req.body.submissionDate;
-      console.log(
-        {
-          studentSubmissionId,
-          submissionId,
-          studentId,
-          submissionDate,
-        },
-        req.body.url
-      );
       const newpath = "./public/submission";
       const file = req.files.file;
       const fileName = file.name;

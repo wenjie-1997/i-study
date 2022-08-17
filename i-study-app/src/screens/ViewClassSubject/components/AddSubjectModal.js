@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import FormGroup from "react-bootstrap/FormGroup";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubjectList } from "../../../thunks/subject";
 import * as subjectSelectors from "../../../selectors/subject";
@@ -53,7 +52,7 @@ const AddSubjectModal = ({ showModal, onCloseModal }) => {
     <>
       <Modal show={showModal} scrollable>
         <form onSubmit={onSubmitSubject}>
-          <Modal.Header>Add Subject</Modal.Header>
+          <Modal.Header>Add Class Subject</Modal.Header>
           <Modal.Body>
             <CommonFormGroup>
               <Form.Label>Subject</Form.Label>

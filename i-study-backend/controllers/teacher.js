@@ -35,7 +35,6 @@ class TeacherController {
   getTimetableByTeacherId = async (req, res, next) => {
     try {
       const result = await Teacher.getTimetableByTeacherId(req.query);
-      console.log(result);
       res.json(
         result.map((slot) => ({
           ...timetableSlotDto.timetableSlotToDto(slot),
@@ -73,6 +72,16 @@ class TeacherController {
           ...userDto.userToDto(teacher),
         }))
       );
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
+  getReportSummary = async (req, res, next) => {
+    try {
+      const result = await Teacher.getReportSummary(req.query);
+      res.json(result);
     } catch (error) {
       console.log(error);
       next(error);

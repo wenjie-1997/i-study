@@ -1,7 +1,9 @@
 const topicDto = require("../dto/topic");
+const classDto = require("../dto/class");
 const topic = require("../models/topic");
 const topicComponentDto = require("../dto/topicComponent");
 const { unlink } = require("fs");
+const NotificationController = require("../controllers/notification");
 
 class TopicController {
   get = async (req, res, next) => {
@@ -58,8 +60,9 @@ class TopicController {
   };
 
   insertTopicComponent = async (req, res, next) => {
+    let insertedTopicComponent = null;
+    const { componentType, topicId, classId } = req.body;
     try {
-      const { componentType, topicId } = req.body;
       if (componentType === 1) await topic.insertRichText(req.body);
       if (parseInt(componentType) === 2) {
         req.body = {
@@ -83,17 +86,28 @@ class TopicController {
         await topic.insertMaterial({ topicId, url, fileName });
       }
 
-      if (componentType === 3) await topic.insertForum(req.body);
-      if (componentType === 4) await topic.insertSubmission(req.body);
-      return res.status(201).send();
+      if (componentType === 3)
+        insertedTopicComponent = await topic.insertForum(req.body);
+      if (componentType === 4)
+        insertedTopicComponent = await topic.insertSubmission(req.body);
+      res.status(201).send();
     } catch (error) {
       next(error);
+    } finally {
+      if (insertedTopicComponent !== null) {
+        const io = req.app.get("socketio");
+        io.to(classId).emit("notification", true);
+        NotificationController.insertNotification({
+          ...topicDto.topicToDto(insertedTopicComponent[0]),
+          ...topicComponentDto.topicComponentToDto(insertedTopicComponent[0]),
+          ...classDto.classToDto(insertedTopicComponent[0]),
+        });
+      }
     }
   };
 
   updateTopicComponent = async (req, res, next) => {
     try {
-      console.log(req.body);
       const { componentType } = req.body;
       if (componentType === 1) await topic.updateRichText(req.body);
       if (parseInt(componentType) === 2) {

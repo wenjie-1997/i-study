@@ -5,7 +5,6 @@ import * as topicComponentSelectors from "../../selectors/topicComponent";
 import * as subjectSelectors from "../../selectors/subject";
 import * as topicSelectors from "../../selectors/topic";
 import { useNavigate, useParams } from "react-router-dom";
-import CommonDiv from "../common/CommonDiv";
 import ComponentCard from "../common/ComponentCard";
 import RichTextEditor from "../common/RichTextEditor";
 import { convertFromRaw, EditorState } from "draft-js";
@@ -30,18 +29,18 @@ const ViewStudentSubject = () => {
 
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>{subjectSelectors.getSubjectName(subject)}</h1>
         <nav>
-          <ol class="breadcrumb">
+          <ol className="breadcrumb">
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() => navigate("/dashboard")}
             >
               Home
             </li>
-            <li class="breadcrumb-item active">
+            <li className="breadcrumb-item active">
               {subjectSelectors.getSubjectName(subject)}
             </li>
           </ol>
@@ -91,7 +90,9 @@ const ViewStudentSubject = () => {
                   {topicComponentSelectors.getComponentType(topicComponent) ===
                     2 && (
                     <a
-                      href={`http://localhost:8000/topic/download?url=${topicComponentSelectors.getUrl(
+                      href={`${
+                        process.env.REACT_APP_BACKEND_URL
+                      }/topic/download?url=${topicComponentSelectors.getUrl(
                         topicComponent
                       )}&fileName=${topicComponentSelectors.getFileName(
                         topicComponent
@@ -131,7 +132,7 @@ const ViewStudentSubject = () => {
                   )}
                   {topicComponentSelectors.getComponentType(topicComponent) ===
                     4 && (
-                    <a
+                    <p
                       onClick={() => {
                         localStorage.setItem(
                           "submission",
@@ -152,7 +153,7 @@ const ViewStudentSubject = () => {
                         style={{ fontSize: "18px", color: "crimson" }}
                       ></i>
                       {topicComponentSelectors.getTitle(topicComponent)}
-                    </a>
+                    </p>
                   )}
                 </div>
               ))}

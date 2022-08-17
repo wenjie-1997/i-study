@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/esm/Button";
-import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Collapse from "react-bootstrap/Collapse";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { deleteClass, getClassList } from "../../thunks/class";
+import { useNavigate } from "react-router-dom";
+import { getClassList } from "../../thunks/class";
 import * as classSelectors from "../../selectors/class";
 import _ from "lodash";
 import {
@@ -53,7 +50,7 @@ const ManageClass = () => {
               onClick={() => navigate("../add_class")}
             >
               <IoAddCircleOutline style={{ margin: "0 8px" }} />
-              <b>Add Subject</b>
+              <b>Add Class</b>
             </div>
           </div>
 

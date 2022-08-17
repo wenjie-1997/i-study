@@ -20,11 +20,12 @@ import {
 } from "../../utilities/helper";
 import { IoTrash } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ViewStudentForum = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const params = useParams();
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState(null);
   const [description, setDescription] = useState("");
@@ -44,7 +45,7 @@ const ViewStudentForum = () => {
         forumId: topicComponentSelectors.getForumId(forumObj),
       })
     );
-  }, []);
+  }, [params.forum_id]);
 
   useEffect(() => {
     setEditingForumCommentId(0);
@@ -87,19 +88,19 @@ const ViewStudentForum = () => {
 
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>Forum Page</h1>
         <nav>
-          <ol class="breadcrumb">
+          <ol className="breadcrumb">
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() => navigate("/dashboard")}
             >
               Home
             </li>
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() =>
                 navigate(
@@ -110,7 +111,7 @@ const ViewStudentForum = () => {
             >
               {subjectSelectors.getSubjectName(subject)}
             </li>
-            <li class="breadcrumb-item active">{title}</li>
+            <li className="breadcrumb-item active">{title}</li>
           </ol>
         </nav>
       </div>
@@ -222,12 +223,3 @@ const ViewStudentForum = () => {
 };
 
 export default ViewStudentForum;
-const styles = {
-  row: {
-    height: "60px",
-    display: "flex",
-    alignItems: "center",
-    // backgroundColor: "lightgray",
-    border: "1px lightgrey solid",
-  },
-};

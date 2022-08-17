@@ -1,0 +1,8 @@
+Web hosting using heroku:
+
+database:
+mysql://b5fbbc0a8680d6:55c51523@us-cdbr-east-05.cleardb.net/heroku_4150329844acfc3?reconnect=true
+
+username:b5fbbc0a8680d6
+password:55c51523
+host:us-cdbr-east-05.cleardb.net

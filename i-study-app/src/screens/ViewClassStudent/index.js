@@ -23,7 +23,7 @@ const ViewClassStudent = () => {
     const classObj = JSON.parse(localStorage.getItem("class"));
     setClassName(classSelectors.getName(classObj));
     dispatch(getClassStudentList({ classId: params.class_id }));
-  }, [params, dispatch]);
+  }, []);
 
   useEffect(() => setShowStudentModal(false), [classStudentList]);
 

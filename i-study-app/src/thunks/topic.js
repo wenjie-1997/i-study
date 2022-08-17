@@ -42,7 +42,7 @@ export const addTopic = (payload) => async (dispatch, getState) => {
   dispatch(ADD_TOPIC_REQUEST());
   try {
     const { closeAddTopicModal, classSubjectId } = payload;
-    const { data, status } = await topicService.addTopic(payload);
+    const { status } = await topicService.addTopic(payload);
     if (status === 201) {
       dispatch(ADD_TOPIC_SUCCESS());
       dispatch(getTopicList({ classSubjectId }));
@@ -57,7 +57,7 @@ export const updateTopic = (payload) => async (dispatch, getState) => {
   dispatch(UPDATE_TOPIC_REQUEST());
   try {
     const { classSubjectId, closeAddTopicModal } = payload;
-    const { data, status } = await topicService.updateTopic(payload);
+    const { status } = await topicService.updateTopic(payload);
     if (status === 200) {
       dispatch(UPDATE_TOPIC_SUCCESS());
       dispatch(getTopicList({ classSubjectId }));

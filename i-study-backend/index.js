@@ -1,11 +1,13 @@
+require("newrelic");
 const express = require("express");
 const cors = require("cors");
+const http = require("http");
 const fileupload = require("express-fileupload");
 const bodyParser = require("body-parser");
+const { Server } = require("socket.io");
 require("dotenv").config();
 
 const db = require("./db");
-const UserAuth = require("./middlewares/userAuth");
 const userRoute = require("./routers/user");
 const studentRoute = require("./routers/student");
 const teacherRoute = require("./routers/teacher");
@@ -14,8 +16,15 @@ const subjectRoute = require("./routers/subject");
 const topicRoute = require("./routers/topic");
 const submissionRoute = require("./routers/submission");
 const forumRoute = require("./routers/forum");
+const notificationRoute = require("./routers/notification");
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  },
+});
 const port = process.env.PORT || 8000;
 
 db.testConnection();
@@ -42,7 +51,24 @@ app.use("/subject", subjectRoute);
 app.use("/topic", topicRoute);
 app.use("/submission", submissionRoute);
 app.use("/forum", forumRoute);
+app.use("/notification", notificationRoute);
 
-app.listen(port, () => {
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("join", (roomName) => {
+    socket.join(roomName);
+    console.log("a user joined a room named " + roomName);
+    io.to(roomName).emit("notification", "hi");
+
+    socket.on("disconnect", (reason) => {
+      console.log("a user leave the room named " + roomName);
+      socket.leave(roomName);
+    });
+  });
+});
+
+app.set("socketio", io);
+
+server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

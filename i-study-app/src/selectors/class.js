@@ -17,6 +17,7 @@ export const getName = (state) => _.get(state, "name", "");
 export const getForm = (state) => _.get(state, "form", "");
 export const getClassTeacherName = (state) =>
   _.get(state, "classTeacherName", "-");
+export const getClassTeacherId = (state) => _.get(state, "classTeacherId", 0);
 export const getYear = (state) => _.get(state, "year", null);
 
 export const getClassSubjectId = (state) => _.get(state, "classSubjectId", 0);

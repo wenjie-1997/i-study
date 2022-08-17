@@ -52,7 +52,7 @@ import _ from "lodash";
 import history from "../utilities/history";
 import * as classSelectors from "../selectors/class";
 
-export const getClassList = (payload) => async (dispatch, state) => {
+export const getClassList = () => async (dispatch) => {
   dispatch(GET_CLASS_LIST_REQUEST());
   try {
     const { data, status } = await classService.getClassList();
@@ -175,7 +175,6 @@ export const deleteClassSubject = (payload) => async (dispatch, state) => {
     if (status === 200) {
       const { class: classModal } = state();
       const { selectedClass } = classModal;
-      console.log(classSelectors.getClassId(selectedClass));
       dispatch(DELETE_CLASS_SUBJECT_SUCCESS());
       dispatch(
         getClassSubjectList({
@@ -223,7 +222,7 @@ export const addClassStudent = (payload) => async (dispatch, state) => {
 export const deleteClassStudent = (payload) => async (dispatch, state) => {
   dispatch(DELETE_CLASS_STUDENT_REQUEST());
   try {
-    const { data, status } = await classService.deleteClassStudent(payload);
+    const { status } = await classService.deleteClassStudent(payload);
     if (status === 200) {
       const { class: classModal } = state();
       const { selectedClass } = classModal;
@@ -288,11 +287,9 @@ export const getClassTimetable = (payload) => async (dispatch, state) => {
 export const updateClassTimetable = (payload) => async (dispatch, state) => {
   dispatch(UPDATE_TIMETABLE_SLOTS_REQUEST());
   try {
-    console.log(payload.timetableSlots);
     const { data, status } = await classService.updateClassTimetable(payload);
     if (status === 200) {
       dispatch(UPDATE_TIMETABLE_SLOTS_SUCCESS(data));
-      console.log(data);
       history.back();
     } else {
       dispatch(UPDATE_TIMETABLE_SLOTS_FAILED());

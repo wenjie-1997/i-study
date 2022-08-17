@@ -13,7 +13,6 @@ const FailedResponseModal = ({ showModal, onCloseModal }) => {
     classSelectors.getUnavailableSlotList(failedRequest);
   const crashedSlotList = classSelectors.getCrashedSlotList(failedRequest);
 
-  console.log(unavailableSlotList, crashedSlotList);
   return (
     <Modal size="lg" show={showModal} scrollable>
       <Modal.Header style={{ justifyContent: "center" }}>
@@ -23,10 +22,10 @@ const FailedResponseModal = ({ showModal, onCloseModal }) => {
         The timetable slot(s) that is/are failed to update are as follows:
         <ul>
           {unavailableSlotList.map((slot, index) => {
-            console.log(crashedSlotList[index]);
             const crashedSlot = crashedSlotList[index];
             const unavailableSubjectName = subjectSelectors.getName(slot);
-            const unavailableDay = DAYS[timetableSlotSelectors.getDay(slot)];
+            const unavailableDay =
+              DAYS[timetableSlotSelectors.getDay(slot) - 1];
             const unavailableStartingSlot =
               timetableSlotSelectors.getStartingSlot(slot);
             const unavailableNoOfSlots =
@@ -34,11 +33,14 @@ const FailedResponseModal = ({ showModal, onCloseModal }) => {
             const teacherName = subjectSelectors.getTeacherName(crashedSlot);
             const crashedSubjectName =
               subjectSelectors.getSubjectName(crashedSlot);
-            const crashedDay = DAYS[timetableSlotSelectors.getDay(crashedSlot)];
+            const crashedDay =
+              DAYS[timetableSlotSelectors.getDay(crashedSlot) - 1];
             const crashedStartingSlot =
               timetableSlotSelectors.getStartingSlot(crashedSlot);
             const crashedNoOfSlots =
               timetableSlotSelectors.getNoOfSlots(crashedSlot);
+            const crashedClassName =
+              timetableSlotSelectors.getClassName(crashedSlot);
 
             return (
               <li key={index}>
@@ -58,7 +60,7 @@ const FailedResponseModal = ({ showModal, onCloseModal }) => {
                       ? `on Slot ${crashedStartingSlot}`
                       : `from Slot ${crashedStartingSlot} to Slot ${
                           crashedStartingSlot + crashedNoOfSlots - 1
-                        } `
+                        } in class ${crashedClassName}`
                   }`}</li>
                 </ul>
               </li>

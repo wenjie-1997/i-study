@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { getStudentTimetable } from "../../thunks/student";
 import * as teacherSelectors from "../../selectors/teacher";
 import * as timetableSlotSelectors from "../../selectors/timetableSlot";
 import * as subjectSelectors from "../../selectors/subject";
@@ -67,11 +66,11 @@ const ViewTeacherTimetable = () => {
 
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>Timetable</h1>
         <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Timetable</li>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">Timetable</li>
           </ol>
         </nav>
       </div>

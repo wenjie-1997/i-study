@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Col from "react-bootstrap/esm/Col";
-import Row from "react-bootstrap/esm/Row";
-import CommonDiv from "../common/CommonDiv";
-import ComponentCard from "../common/ComponentCard";
 import CommonFormGroup from "../common/CommonFormGroup";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -20,7 +16,6 @@ import {
 } from "../../thunks/forum";
 import {
   getCurrentLocalISOFullString,
-  getCurrentLocalISOString,
   getformattedDateTime,
 } from "../../utilities/helper";
 import { IoTrash } from "react-icons/io5";
@@ -93,19 +88,19 @@ const ViewTeacherForum = () => {
 
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>Forum Page</h1>
         <nav>
-          <ol class="breadcrumb">
+          <ol className="breadcrumb">
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() => navigate("/dashboard")}
             >
               Home
             </li>
             <li
-              class="breadcrumb-item"
+              className="breadcrumb-item"
               style={{ cursor: "pointer" }}
               onClick={() =>
                 navigate(
@@ -116,7 +111,7 @@ const ViewTeacherForum = () => {
             >
               {subjectSelectors.getSubjectName(subject)}
             </li>
-            <li class="breadcrumb-item active">{title}</li>
+            <li className="breadcrumb-item active">{title}</li>
           </ol>
         </nav>
       </div>
@@ -227,12 +222,3 @@ const ViewTeacherForum = () => {
 };
 
 export default ViewTeacherForum;
-const styles = {
-  row: {
-    height: "60px",
-    display: "flex",
-    alignItems: "center",
-    // backgroundColor: "lightgray",
-    border: "1px lightgrey solid",
-  },
-};

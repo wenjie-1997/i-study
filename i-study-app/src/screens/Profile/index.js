@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import * as userSelectors from "../../selectors/user";
@@ -76,11 +73,11 @@ const Profile = () => {
 
   return (
     <>
-      <div class="pagetitle">
+      <div className="pagetitle">
         <h1>Profile Details</h1>
         <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Profile</li>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">Profile</li>
           </ol>
         </nav>
       </div>
@@ -187,9 +184,9 @@ const Profile = () => {
         </Card.Body>
       </Card>
       <Modal size="lg" show={showEditModal}>
-        <Modal.Header className="modal-header">Edit Profile</Modal.Header>
-        <Modal.Body className="mx-3 my-2">
-          <Form onSubmit={onSubmitEdit}>
+        <Form onSubmit={onSubmitEdit}>
+          <Modal.Header className="modal-header">Edit Profile</Modal.Header>
+          <Modal.Body className="mx-3 my-2">
             <CommonFormGroup>
               <Form.Label>Address</Form.Label>
               <Form.Control
@@ -223,14 +220,14 @@ const Profile = () => {
                 required
               />
             </CommonFormGroup>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Close
-          </Button>
-          <Button type="submit">Submit</Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+              Close
+            </Button>
+            <Button type="submit">Submit</Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
       <ChangePasswordModal
         showModal={showChangePasswordModal}

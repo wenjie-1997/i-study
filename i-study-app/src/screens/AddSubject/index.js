@@ -31,7 +31,7 @@ const AddSubject = () => {
               Subject
             </li>
 
-            <li class="breadcrumb-item active">Add Subject</li>
+            <li className="breadcrumb-item active">Add Subject</li>
           </ol>
         </nav>
       </div>
